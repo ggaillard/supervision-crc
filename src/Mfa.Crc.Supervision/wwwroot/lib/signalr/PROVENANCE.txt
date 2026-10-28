@@ -1,0 +1,2 @@
+@microsoft/signalr 10.0.11 (npm), dist/browser/signalr.min.js — licence MIT, (c) .NET Foundation.
+Copié ici pour que les moniteurs fonctionnent sans accès à un CDN.

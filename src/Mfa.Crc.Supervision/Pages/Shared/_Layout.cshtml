@@ -1,0 +1,28 @@
+@inject EtatCrc Etat
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    @await RenderSectionAsync("Entete", required: false)
+    <title>@(ViewData["Titre"] ?? "Supervision") · MFA CRC</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true">
+</head>
+<body>
+<header class="barre">
+    <span class="logo" aria-hidden="true">@(ViewData["Numero"] ?? "▣")</span>
+    <h1>@(ViewData["Titre"] ?? "Supervision")</h1>
+    <span class="contexte">MFA · Centre de relation client</span>
+    <nav aria-label="Navigation">
+        <a href="/">Accueil</a>
+        <a href="/moniteur/1">1 File d'attente</a>
+        <a href="/societaires">Sociétaires</a>
+    </nav>
+    <span class="horloge" title="Heure simulée">@Etat.Heure.ToString(@"hh\:mm\:ss")</span>
+</header>
+<main>
+    @RenderBody()
+</main>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

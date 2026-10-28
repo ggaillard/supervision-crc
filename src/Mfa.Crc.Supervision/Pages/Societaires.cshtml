@@ -1,0 +1,35 @@
+@page
+@model Mfa.Crc.Supervision.Pages.SocietairesModel
+@{
+    ViewData["Titre"] = "Sociétaires";
+}
+
+<section class="panneau">
+    <h2>Rechercher un sociétaire</h2>
+    <form class="recherche" method="get">
+        <label for="nom" class="discret">Nom</label>
+        <input id="nom" name="nom" type="search" value="@Model.Nom" placeholder="ex. ROCHE">
+        <button type="submit">Rechercher</button>
+    </form>
+
+    @if (Model.Nom is not null)
+    {
+        <p class="discret">@Model.Resultats.Count résultat(s)</p>
+        <table>
+            <thead><tr><th>N°</th><th>Nom</th><th>Prénom</th><th>Ville</th><th>Sociétaire depuis</th><th>Contrats</th></tr></thead>
+            <tbody>
+            @foreach (var s in Model.Resultats)
+            {
+                <tr data-societaire="@s.Id">
+                    <td class="mono">@s.Id</td>
+                    <td>@s.Nom</td>
+                    <td>@s.Prenom</td>
+                    <td>@s.Ville</td>
+                    <td>@s.SocietaireDepuis</td>
+                    <td>@string.Join(", ", s.Contrats.Select(c => c.Type))</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+</section>

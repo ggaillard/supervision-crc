@@ -1,0 +1,35 @@
+@page "/moniteur/1"
+@model Mfa.Crc.Supervision.Pages.Moniteurs.FileAttenteModel
+@{
+    ViewData["Titre"] = "File d'attente multicanal";
+    ViewData["Numero"] = "1";
+}
+@section Entete {
+    <meta http-equiv="refresh" content="5">
+}
+
+<section class="panneau">
+    <h2>Contacts en attente (@Model.Contacts.Count)</h2>
+    <table>
+        <thead>
+        <tr><th>Canal</th><th>Contact</th><th>File</th><th>Motif</th><th>Arrivée</th><th>Priorité</th></tr>
+        </thead>
+        <tbody>
+        @foreach (var c in Model.Contacts)
+        {
+            <tr data-contact="@c.Id">
+                <td class="mono">@c.Canal</td>
+                <td>@c.Id</td>
+                <td>@c.File</td>
+                <td>@c.Motif</td>
+                <td class="mono">@c.Arrivee.ToString(@"hh\:mm\:ss")</td>
+                <td>@c.Priorite</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    @if (Model.Contacts.Count == 0)
+    {
+        <p class="discret">Aucun contact en attente.</p>
+    }
+</section>

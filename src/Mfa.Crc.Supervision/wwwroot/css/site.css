@@ -1,0 +1,59 @@
+/* Supervision du CRC — thème sombre de poste de supervision */
+:root {
+  --fond: #0F1720;
+  --panneau: #17212C;
+  --ligne: #243140;
+  --texte: #E6EBF0;
+  --discret: #9AA8B6;
+  --accent: #2563EB;
+  --lien: #7FB8FF;
+  --ok: #5EDBA5;
+  --attention: #F5B041;
+  --alerte: #FF8A7A;
+  --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fond); color: var(--texte); font-family: "IBM Plex Sans", system-ui, sans-serif; }
+a { color: var(--lien); }
+
+.barre { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px; padding: 10px 28px; background: #0A1118; border-bottom: 1px solid var(--ligne); }
+.barre h1 { margin: 0; font-size: 20px; font-weight: 600; }
+.barre .logo { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 6px; background: var(--accent); font-family: var(--mono); font-weight: 600; }
+.barre .contexte { color: var(--discret); font-size: 14px; }
+.barre nav { margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap; }
+.barre nav a { display: inline-flex; align-items: center; min-height: 36px; padding: 0 12px; border: 1px solid var(--ligne); border-radius: 6px; text-decoration: none; font-size: 13px; }
+.barre .horloge { font-family: var(--mono); font-size: 18px; }
+
+main { padding: 20px 28px; }
+.panneau { background: var(--panneau); border-radius: 10px; padding: 16px 20px; margin-bottom: 16px; }
+.panneau h2 { margin: 0 0 12px; font-size: 17px; }
+.tuiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 16px; }
+.tuile { background: var(--panneau); border-radius: 10px; padding: 16px 20px; }
+.tuile .libelle { font-size: 14px; color: var(--discret); }
+.tuile .valeur { font-size: 40px; font-weight: 700; font-family: var(--mono); }
+
+table { width: 100%; border-collapse: collapse; font-size: 15px; }
+th { text-align: left; color: var(--discret); font-size: 13px; font-weight: 600; padding: 8px; border-bottom: 1px solid var(--ligne); }
+td { padding: 8px; border-bottom: 1px solid #1E2A37; }
+.mono { font-family: var(--mono); }
+.discret { color: var(--discret); }
+
+.badge { display: inline-block; padding: 3px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; background: #22303F; color: #C9D4DF; }
+.prio-escalade { background: #4A1D19; color: #FFB4A8; }
+.prio-haute { background: #3D2A0E; color: #F5C46B; }
+.prio-normale { background: #22303F; color: #C9D4DF; }
+.alerte { color: var(--alerte); font-weight: 600; }
+
+form.recherche { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+input, select, textarea, button { font: inherit; }
+input[type=text], input[type=search], input[type=password], select, textarea {
+  background: var(--fond); color: var(--texte); border: 1px solid var(--ligne); border-radius: 6px; padding: 8px 10px; min-height: 40px;
+}
+button, .bouton { min-height: 40px; padding: 0 16px; border-radius: 6px; border: 0; background: var(--accent); color: #fff; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; }
+.bouton.secondaire, button.secondaire { background: transparent; border: 1px solid var(--accent); color: var(--texte); font-weight: 400; }
+
+.liens-moniteurs { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.liens-moniteurs a { display: block; padding: 20px; background: var(--panneau); border-radius: 10px; text-decoration: none; color: var(--texte); }
+.liens-moniteurs a strong { display: block; font-size: 18px; margin-bottom: 6px; }
+.liens-moniteurs a.indisponible { opacity: .5; pointer-events: none; }

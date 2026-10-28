@@ -1,0 +1,29 @@
+{
+  "name": "🖥️ Supervision CRC — .NET 10",
+  "image": "mcr.microsoft.com/devcontainers/dotnet:10.0",
+
+  // Installe dotnet-ef et sqlite3, restaure et compile la solution.
+  // Le script peut être relancé sans risque (idempotent).
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+
+  "forwardPorts": [5000],
+  "portsAttributes": {
+    "5000": { "label": "🖥️ Supervision CRC", "onAutoForward": "notify" }
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-dotnettools.csdevkit",
+        "ms-dotnettools.csharp",
+        "qwtel.sqlite-viewer",
+        "github.vscode-github-actions",
+        "editorconfig.editorconfig"
+      ],
+      "settings": {
+        "editor.formatOnSave": false,
+        "files.exclude": { "**/bin": true, "**/obj": true }
+      }
+    }
+  }
+}

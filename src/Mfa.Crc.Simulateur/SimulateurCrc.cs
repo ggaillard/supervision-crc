@@ -29,6 +29,12 @@ public sealed class SimulateurCrc
     /// <summary>Déclenché à la fin du scénario.</summary>
     public event EventHandler? Termine;
 
+    /// <summary>
+    /// L'horloge simulée avance (au moins une fois par seconde réelle pendant <see cref="RejouerAsync"/>,
+    /// et à la fin de <see cref="AvancerJusqua"/>) : les durées affichées continuent de courir entre deux événements.
+    /// </summary>
+    public event EventHandler<TimeSpan>? HorlogeAvancee;
+
     /// <summary>Nombre de secondes simulées par seconde réelle (60 = une minute par seconde).</summary>
     public double Acceleration { get; set; } = 60;
 
@@ -67,11 +73,14 @@ public sealed class SimulateurCrc
         while (_prochain < _evenements.Count)
         {
             var e = _evenements[_prochain];
-            var ecart = e.Heure - HeureSimulee;
-            if (ecart > TimeSpan.Zero && Acceleration > 0)
+            // Attendre jusqu'à l'événement, par pas d'au plus une seconde réelle, en faisant avancer l'horloge
+            var pas = TimeSpan.FromSeconds(Acceleration > 0 ? Acceleration : 1);
+            while (Acceleration > 0 && e.Heure - HeureSimulee > TimeSpan.Zero)
             {
-                await Task.Delay(TimeSpan.FromTicks((long)(ecart.Ticks / Acceleration)), jeton)
-                          .ConfigureAwait(false);
+                var avance = e.Heure - HeureSimulee < pas ? e.Heure - HeureSimulee : pas;
+                await Task.Delay(TimeSpan.FromTicks((long)(avance.Ticks / Acceleration)), jeton).ConfigureAwait(false);
+                HeureSimulee += avance;
+                if (HeureSimulee < e.Heure) HorlogeAvancee?.Invoke(this, HeureSimulee);
             }
             _prochain++;
             HeureSimulee = e.Heure;
@@ -93,6 +102,7 @@ public sealed class SimulateurCrc
             Publier(e);
         }
         if (heure > HeureSimulee) HeureSimulee = heure;
+        HorlogeAvancee?.Invoke(this, HeureSimulee);
     }
 
     private void Publier(Evenement e)

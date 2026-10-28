@@ -1,125 +1,118 @@
-# Situation professionnelle — Poste de supervision 4 moniteurs
+# 🖥️ Supervision CRC — Situation professionnelle .NET · BTS SIO SLAM
 
-**BTS SIO SLAM — 2e année — 2026-2027**
+<div align="center">
 
-Vous êtes développeur au service informatique de la **Mutuelle Forézienne d'Assurance (MFA)**, une mutuelle d'assurance fictive basée à Saint-Étienne. La responsable du centre de relation client vous confie le développement de l'application de supervision utilisée par ses superviseurs, sur un poste équipé de **4 moniteurs**.
+**[🗺️ Parcours](PARCOURS.md)** · **[📋 Ma progression](PROGRESSION.md)** · **[🚑 Dépannage](DEPANNAGE.md)** · **[🎓 Fiches de cours](cours/README.md)** · **[📐 Cahier des charges](docs/cahier-des-charges.md)**
 
-> Toutes les personnes, sociétaires et numéros de ce dépôt sont fictifs.
+</div>
 
 ---
 
-## 1. L'organisation
+## 🎯 La situation
 
-| Élément | Description |
-| --- | --- |
-| Secteur | Tertiaire — assurance mutualiste (auto, habitation, santé) |
-| Taille | 240 salariés, 85 000 sociétaires |
-| Service concerné | Centre de relation client (CRC) : 18 conseillers, 2 superviseurs |
-| Files de traitement | Sinistres, Contrats, Santé, Accueil général |
-| Canaux | Téléphone, chat, e-mail, demandes de rappel |
-| Demandeuse | Claire Morel, responsable du CRC |
+La **Mutuelle Forézienne d'Assurance (MFA)** — 240 salariés, 85 000 sociétaires, à Saint-Étienne —
+a un **centre de relation client** : 18 conseillers répondent au téléphone, au chat et aux e-mails,
+sur quatre files (Sinistres, Contrats, Santé, Accueil). Deux superviseurs pilotent le plateau.
 
-**Le problème.** Aujourd'hui le superviseur jongle entre le logiciel de téléphonie, l'outil de gestion des sinistres et un tableur d'indicateurs. Il voit trop tard une file qui sature, un conseiller en difficulté ou une réclamation proche de son échéance.
+Un prestataire a commencé une application de supervision, puis il est parti. Elle tourne, mais elle
+ne fait presque rien : un seul écran, une file d'attente dans le désordre, une recherche de sociétaires…
+La responsable du centre, **Claire Morel**, vous confie la suite.
 
-## 2. Pourquoi 4 moniteurs
+Le poste du superviseur a **quatre moniteurs**. Il doit voir *en même temps* qui attend, qui est
+disponible, le dossier difficile du moment et les indicateurs de la journée : des onglets en cacheraient
+trois sur quatre.
 
-Le superviseur doit voir **en même temps** la demande, la ressource, le cas difficile et le résultat. Une seule fenêtre à onglets cacherait trois de ces informations à chaque instant.
+| Moniteur | La question à laquelle il répond |
+|---|---|
+| **1 · File d'attente** | Qui attend, depuis combien de temps, pour quel motif ? |
+| **2 · Plateau** | Qui est disponible, qui est en difficulté ? |
+| **3 · Dossier** | Que se passe-t-il sur le cas que je traite ? |
+| **4 · Indicateurs** | L'objectif de la journée est-il tenu ? |
 
-| Moniteur | Question à laquelle il répond | Données affichées | Actualisation |
-| --- | --- | --- | --- |
-| 1. File d'attente multicanal | Qui attend, depuis combien de temps, pour quel motif ? | Contacts en attente par canal et par file, priorité, niveau de service | 5 s |
-| 2. Plateau des conseillers | Qui est disponible, qui est en difficulté ? | Statut et durée de chaque conseiller, compétences, dépassements | 5 s |
-| 3. Dossier en escalade | Que se passe-t-il sur le cas que je traite ? | Fiche sociétaire, contrat, sinistre, historique, échéance de réclamation, note | sur sélection |
-| 4. Indicateurs & alertes | L'objectif de la journée est-il tenu ? | Taux de décroché, durée moyenne, résolution au 1er contact, satisfaction, alertes | 1 min |
+| Ce qui existe le premier jour | Ce que vous aurez livré en huit séances |
+|---|---|
+| Moniteur 1 : la file, dans l'ordre d'arrivée | File triée par priorité, attentes, compteurs (RG1) |
+| Compétences saisies en texte (« Sinistres;Contrats ») | Une vraie association en base, données reprises |
+| — | Moniteur 2 : le plateau, les alertes de durée (RG4) |
+| — | Affecter un contact à un conseiller, sans doublon (RG2) |
+| Pages qui se rechargent toutes les 5 secondes | Temps réel (SignalR) et ouverture sur 4 écrans (RG7) |
+| N'importe qui ouvre l'application | Connexion, moniteur 3, notes, journal des actions |
+| — | Moniteur 4 : indicateurs, réclamations, alertes (RG3, RG5, RG6) |
+| Une faille de sécurité cachée… | Un audit, vos tests, une application prête à l'exploitation |
 
-Les moniteurs **dialoguent** :
+> Toutes les personnes, sociétaires et numéros de ce dépôt sont **fictifs**.
 
-- affecter un contact sur le moniteur 1 met à jour le moniteur 2 ;
-- sélectionner un conseiller sur le moniteur 2 ouvre son dossier sur le moniteur 3 ;
-- une alerte du moniteur 4 met en évidence la file ou le conseiller concerné.
+## 🚀 Démarrer en 3 minutes
 
-La maquette validée par la demandeuse est fournie par votre enseignant (lien du prototype cliquable). Les captures sont à placer dans `docs/maquettes/`.
+1. En haut de ce dépôt : **Use this template → Create a new repository**, nommé `supervision-crc-NOM-Prenom` (privé).
+2. Dans **votre** dépôt : **Code → Codespaces → Create codespace on main**.
+3. Attendez le message `✅ Supervision CRC est prête` dans le terminal (2 à 3 minutes la première fois).
+4. Lancez l'application :
 
-## 3. Besoin exprimé
+   ```bash
+   dotnet run --project src/Mfa.Crc.Supervision
+   ```
 
-User stories de la demandeuse :
+   Onglet **PORTS** → port **5000** → 🌐 : l'application s'ouvre ; l'horloge en haut à droite avance,
+   la matinée simulée se déroule.
+5. Dans un **second** terminal :
 
-- En tant que superviseur, je veux voir les contacts en attente triés par priorité puis par attente, pour traiter d'abord les escalades.
-- En tant que superviseur, je veux affecter un contact à un conseiller disponible ayant la bonne compétence.
-- En tant que superviseur, je veux être alerté quand un conseiller dépasse 10 min d'appel ou de pause.
-- En tant que superviseur, je veux ouvrir le dossier d'un conseiller sur un moniteur dédié et y laisser une note.
-- En tant que responsable du CRC, je veux suivre les indicateurs du jour et de la semaine face aux objectifs.
+   ```bash
+   dotnet test --filter Groupe=socle      # 8 tests verts : tout fonctionne
+   ```
 
-Les règles de gestion (RG1 à RG7) sont dans [`docs/cahier-des-charges.md`](docs/cahier-des-charges.md).
+Ensuite, ouvrez le **[Parcours](PARCOURS.md)** et commencez la séance 1.
 
-## 4. Contraintes techniques
+## 🧪 Les tests sont votre cahier des charges
 
-| Point | Exigence |
-| --- | --- |
-| Poste | 1 PC Windows, 4 moniteurs Full HD (1920 × 1080) en 2 × 2 |
-| Technologie | C# / .NET 8, WPF : une seule application qui ouvre 4 fenêtres |
-| Architecture | Présentation (4 vues MVVM) / services / accès aux données ; un service d'événements partagé notifie les 4 vues |
-| Données | Base MySQL (ou SQLite) que **vous** concevez, alimentée par le simulateur fourni |
-| Configuration | `config/poste.json` : vue ↔ moniteur, seuils d'alerte, objectifs |
-| Sécurité | Authentification du superviseur, journal des actions (affectation, acquittement, note) |
+Chaque séance a son groupe de tests. Au départ ils sont **rouges** : c'est normal, ils décrivent ce que
+vous allez construire. Une mission est terminée quand ses tests passent au vert.
 
-**Pas 4 écrans en salle ?** L'application doit ouvrir ses vues en fenêtres redimensionnables quand il y a moins de 4 moniteurs (RG7). Vous développez sur 1 ou 2 écrans.
+```bash
+dotnet test --filter Groupe=seance-03                       # les tests de la séance 3
+dotnet test --filter "Groupe=seance-03&FullyQualifiedName~m2"   # seulement la mission 3.2
+dotnet test --filter Groupe=socle                           # ce qui marchait déjà : doit TOUJOURS rester vert
+```
 
-## 5. Ce qui vous est fourni
+À chaque `git push`, GitHub relance les mêmes tests : l'onglet **Actions** de votre dépôt montre une
+coche verte ou une croix rouge **par séance**.
+
+> Un test qui affiche `NotImplementedException` vous dit seulement que la méthode attend encore son code :
+> le prestataire a laissé les **signatures** (le contrat), à vous d'écrire le **corps**.
+
+## 🗂️ Organisation du dépôt
 
 ```
 supervision-crc/
-├── README.md                    ← ce sujet
-├── docs/
-│   ├── cahier-des-charges.md    ← règles de gestion, indicateurs, glossaire
-│   ├── fiche-E5.md              ← trame de fiche de réalisation professionnelle
-│   └── maquettes/               ← captures du prototype (à ajouter)
-├── config/
-│   └── poste.json               ← exemple de configuration du poste
-├── data/
-│   ├── conseillers.json         ← 18 conseillers et leurs compétences
-│   ├── societaires.json         ← sociétaires, contrats, sinistres, réclamations
-│   └── scenario-matinee.json    ← déroulé d'une matinée (contacts, statuts)
-└── src/
-    └── Simulateur/              ← bibliothèque C# qui rejoue le scénario
+├── README.md                vous êtes ici
+├── PARCOURS.md              la méthode et les 8 séances, dans l'ordre
+├── PROGRESSION.md           vos cases à cocher (à committer)
+├── DEPANNAGE.md             erreurs fréquentes, classées par message
+├── seances/                 un guide par séance (2 h)
+├── cours/                   fiches de cours + auto-évaluations
+├── docs/                    cahier des charges (règles RG1 à RG7), maquettes
+├── e5/                      fiche de réalisation pour votre tableau de synthèse E5
+├── data/                    conseillers, sociétaires, scénario de la matinée (fictifs)
+├── config/poste.json        quelle vue sur quel moniteur, seuils, objectifs
+├── src/
+│   ├── Mfa.Crc.Simulateur/  rejoue la matinée et déclenche des événements (remplace la téléphonie)
+│   └── Mfa.Crc.Supervision/ ⬅ l'application (ASP.NET Core .NET 10, Razor Pages, EF Core + SQLite)
+│       ├── Domaine/  Donnees/  Regles/  TempsReel/  Pages/  wwwroot/
+└── tests/Mfa.Crc.Tests/     Socle/ · Seance01/ … Seance08/ · Bonus/ · Etudiant/ (les vôtres)
 ```
 
-Le **simulateur** rejoue `scenario-matinee.json` en accéléré et déclenche des événements C# (`ContactArrive`, `ContactDecroche`, `StatutConseillerChange`…). Votre application s'y abonne, comme elle s'abonnerait demain à la vraie téléphonie. Mode d'emploi : [`src/Simulateur/README.md`](src/Simulateur/README.md).
+## 🛠️ Environnement
 
-## 6. Vos missions
+| Élément | Rôle |
+|---|---|
+| .NET 10 SDK, `dotnet-ef` | compiler, lancer, tester, créer les migrations |
+| SQLite (`crc.db`) | la base de l'application, créée au premier lancement |
+| Simulateur | rejoue la matinée du 28 octobre 2026 (08:00-12:00), 313 contacts, en accéléré |
+| Port **5000** | l'application |
 
-1. **Analyse** — jouer le prototype, compléter les user stories, produire le MCD et le script SQL de création.
-2. **Socle multi-écrans** — ouvrir les 4 fenêtres sur les bons moniteurs d'après `config/poste.json`, avec repli en fenêtres (RG7).
-3. **Moniteurs 1 et 2** — file d'attente triée (RG1), plateau des conseillers, affectation (RG2), alertes de durée (RG4).
-4. **Moniteurs 3 et 4** — dossier synchronisé sur la sélection, note enregistrée, indicateurs (RG3) et alertes acquittables (RG5, RG6).
-5. **Recette** — tests unitaires des règles RG1 à RG5, démonstration à la demandeuse.
+Pas de base à installer : supprimer `src/Mfa.Crc.Supervision/crc.db` repart d'une base neuve au
+lancement suivant.
 
-## 7. Livrables (dans votre dépôt)
+---
 
-- [ ] MCD, dictionnaire de données et script SQL
-- [ ] Code source et fichier de configuration
-- [ ] Tests unitaires des règles de gestion
-- [ ] Documentation utilisateur du superviseur (1 page par moniteur)
-- [ ] README technique : installation, lancement du simulateur, limites connues
-- [ ] Fiche de réalisation professionnelle (trame `docs/fiche-E5.md`)
-
-## 8. Évaluation
-
-| Critère | Points |
-| --- | --- |
-| Analyse du besoin, MCD et base conformes aux règles | 4 |
-| Socle multi-écrans et repli en fenêtres | 3 |
-| File d'attente, plateau et affectation corrects | 4 |
-| Dossier synchronisé, indicateurs et alertes | 4 |
-| Tests unitaires des règles de gestion | 2 |
-| Sécurité : authentification et journal des actions | 1 |
-| Présentation à la demandeuse et documentation | 2 |
-| **Total** | **20** |
-
-## 9. Démarrer
-
-1. Cliquez sur **Use this template** pour créer votre propre dépôt (privé), puis clonez-le.
-2. Ouvrez `src/Simulateur` et lancez la démo console : `dotnet run --project src/Simulateur.Demo`.
-3. Commencez par la mission 1 : le MCD est le premier jalon.
-
-Compétences du référentiel : bloc 2 « Conception et développement d'applications », et bloc 3 (cybersécurité) pour l'authentification et la journalisation.
+*Projet pédagogique — BTS SIO option SLAM, 2026-2027. La mutuelle et ses personnages sont fictifs.*

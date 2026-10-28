@@ -1,53 +1,74 @@
-# Cahier des charges — Supervision du CRC de la MFA
+# 📐 Cahier des charges — Supervision du CRC de la MFA
+
+*Rédigé avec Claire Morel, responsable du centre de relation client. Les paramètres chiffrés sont dans
+`appsettings.json` (section `Supervision`) et `config/poste.json`, jamais écrits en dur dans le code.*
 
 ## 1. Règles de gestion
 
-| N° | Règle |
-| --- | --- |
-| RG1 | **Priorité de la file d'attente** : Escalade > Haute > Normale. À priorité égale, le contact qui attend depuis le plus longtemps passe devant. |
-| RG2 | Un contact n'est affecté qu'à un conseiller au statut **Disponible** qui possède la **compétence de la file** du contact. |
-| RG3 | **Niveau de service** (par file et global) = contacts décrochés en moins de 20 s ÷ contacts reçus. Alerte quand il reste sous 80 % pendant 10 min consécutives. |
-| RG4 | Alerte quand un conseiller est **en appel** ou **en pause** depuis plus de 10 min. Les deux seuils sont paramétrables dans `config/poste.json`. |
-| RG5 | **Réclamation** : accusé de réception sous 10 jours ouvrables, réponse sous 2 mois après réception. Alerte à J-5 de chaque échéance. *Délais recommandés par l'ACPR : vérifiez-les sur le site de l'ACPR et citez votre source.* |
-| RG6 | Une alerte acquittée n'est jamais supprimée : elle reste dans l'historique avec l'heure et l'identifiant du superviseur qui l'a acquittée. |
-| RG7 | Chaque vue s'ouvre sur le moniteur prévu par la configuration. S'il manque un moniteur au démarrage, ou s'il est débranché en cours de route, la vue s'ouvre en fenêtre sur un écran restant. |
+| N° | Règle | Séance |
+|---|---|---|
+| RG1 | **Priorité de la file d'attente** : Escalade > Haute > Normale. À priorité égale, le contact qui attend depuis le plus longtemps passe devant. | 1 |
+| RG2 | Un contact n'est affecté qu'à un conseiller au statut **Disponible** qui possède la **compétence de la file** du contact. Parmi eux, l'application propose celui qui est disponible **depuis le plus longtemps**. Un contact n'est affecté qu'une fois ; un conseiller ne reçoit qu'un contact à la fois. | 4 |
+| RG3 | **Niveau de service** (par file) = contacts décrochés en moins de 20 s ÷ contacts arrivés, sur une **fenêtre glissante de 30 minutes** ; les contacts arrivés depuis moins de 20 s ne comptent pas encore. **Alerte** quand il reste sous 80 % à chaque minute pendant 10 minutes. | 7 |
+| RG4 | **Alerte de durée** quand un conseiller est en appel (téléphone ou chat) ou en pause depuis **plus** de 10 minutes. Les deux seuils sont paramétrables. Le post-appel n'est pas concerné. | 3 |
+| RG5 | **Réclamation** : accusé de réception sous **10 jours ouvrables** (lundi au vendredi, hors jours fériés), réponse sous **2 mois** après réception. Alerte quand une échéance non tenue tombe dans les **5 jours** ou est dépassée. *Délais recommandés par l'ACPR pour le traitement des réclamations : à vérifier sur le site de l'ACPR, source à citer.* | 7 |
+| RG6 | Une alerte acquittée n'est **jamais supprimée** : elle reste avec l'heure et l'identité du superviseur qui l'a acquittée. | 7 |
+| RG7 | Chaque vue s'ouvre sur le moniteur prévu par `config/poste.json`. S'il manque un moniteur, les vues s'ouvrent **en fenêtres** sur les écrans restants. | 5 |
 
 ## 2. Statuts d'un conseiller
 
-| Statut | Signification | Peut recevoir un contact |
-| --- | --- | --- |
+| Statut (code) | Signification | Peut recevoir un contact |
+|---|---|---|
 | Disponible | Connecté, en attente | Oui |
-| En appel | Traite un appel téléphonique | Non |
-| Chat | Traite 1 ou 2 conversations écrites | Non (au-delà de 2 conversations) |
-| Post-appel | Saisit le compte rendu de l'appel précédent | Non |
+| EnAppel | Traite un appel téléphonique | Non |
+| Chat | Traite une ou deux conversations écrites | Non |
+| PostAppel | Rédige le compte rendu du contact précédent | Non |
 | Pause | Pause déclarée | Non |
-| Formation | Indisponible pour la journée ou la demi-journée | Non |
+| Formation | Indisponible (formation) | Non |
+| HorsLigne | Pas encore connecté | Non |
 
 ## 3. Indicateurs (moniteur 4)
 
 | Indicateur | Calcul | Objectif MFA |
-| --- | --- | --- |
-| Taux de décroché | contacts décrochés ÷ contacts reçus | ≥ 95 % |
-| Durée moyenne de traitement (DMT) | (durée d'appel + durée de post-appel) ÷ nombre d'appels traités | ≤ 7 min |
-| Résolution au premier contact | contacts clos sans recontact sous 7 jours ÷ contacts clos | ≥ 75 % |
-| Satisfaction à chaud | moyenne des notes de 1 à 5 laissées par les sociétaires | ≥ 4,0 |
+|---|---|---|
+| Taux de décroché | contacts décrochés ÷ (décrochés + abandonnés) | ≥ 95 % |
+| Durée moyenne de traitement | moyenne de (clos − décroché) sur les contacts clos | ≤ 7 min |
+| Résolution au premier contact | contacts clos résolus ÷ contacts clos | ≥ 75 % |
+| Satisfaction à chaud | moyenne des notes de 1 à 5 | ≥ 4,0 |
 | Niveau de service | voir RG3 | ≥ 80 % |
 
-Les objectifs sont lus dans `config/poste.json`, jamais écrits en dur dans le code.
+Un contact encore en attente n'entre dans aucun de ces calculs.
 
-## 4. Interactions entre moniteurs
+## 4. Les quatre moniteurs et leurs échanges
 
-| Action | Moniteur d'origine | Effet |
-| --- | --- | --- |
-| Affecter un contact | 1 | Le contact quitte la file ; le conseiller passe « En appel » sur le moniteur 2 |
-| Sélectionner un conseiller | 2 | Le dossier qu'il traite s'affiche sur le moniteur 3 |
-| Cliquer une alerte | 4 | La file ou le conseiller concerné est mis en évidence sur le moniteur 1 ou 2 |
-| Enregistrer une note | 3 | La note est ajoutée à l'historique du dossier et au journal des actions |
+| Moniteur | URL | Contenu |
+|---|---|---|
+| 1 · File d'attente | `/moniteur/1` | contacts en attente triés (RG1), attente, compteurs par file, bouton Affecter |
+| 2 · Plateau | `/moniteur/2` | 18 conseillers, statut, durée, alertes RG4, sélection |
+| 3 · Dossier | `/moniteur/3` | le dossier du sociétaire en ligne avec le conseiller sélectionné, notes |
+| 4 · Indicateurs | `/moniteur/4` | indicateurs, niveau de service par file, alertes RG3 RG4 RG5, acquittement |
 
-## 5. Glossaire
+| Action | Depuis | Effet |
+|---|---|---|
+| Affecter un contact | moniteur 1 | le contact quitte la file ; le conseiller passe *En appel* sur le moniteur 2 |
+| Sélectionner un conseiller | moniteur 2 | son dossier s'ouvre sur le moniteur 3 |
+| Écrire une note | moniteur 3 | la note rejoint le dossier ; une ligne au journal des actions |
+| Acquitter une alerte | moniteur 4 | l'alerte passe en « acquittée par … à … » ; une ligne au journal |
+
+Tous les moniteurs se mettent à jour **sans rechargement**, dès que l'état change.
+
+## 5. Sécurité
+
+- Seuls les superviseurs connectés accèdent aux moniteurs et à l'API (sauf la connexion et la sonde de santé).
+- Les mots de passe sont stockés sous forme d'empreinte ; le message d'échec de connexion ne dit pas si l'identifiant existe.
+- Chaque affectation, note et acquittement est journalisé : qui, quoi, sur quoi, quand.
+
+## 6. Glossaire
 
 - **CRC** : centre de relation client.
-- **Escalade** : contact remonté au superviseur parce que le conseiller ne peut pas le régler seul (réclamation, client mécontent, montant élevé).
+- **Escalade** : contact remonté parce que le conseiller ne peut pas le régler seul (réclamation, client mécontent).
 - **Sociétaire** : client d'une mutuelle, qui en est aussi membre.
-- **Réclamation** : mécontentement exprimé par écrit ou oralement envers la mutuelle ; elle obéit à des délais de réponse (RG5).
-- **Acquitter une alerte** : indiquer qu'on l'a vue et prise en charge.
+- **Réclamation** : mécontentement exprimé envers la mutuelle ; elle obéit à des délais de réponse (RG5).
+- **Acquitter une alerte** : indiquer qu'on l'a vue et qu'on la prend en charge.
+- **Décrocher** : un conseiller prend en charge un contact (appel, chat, e-mail).
+- **Abandon** : le sociétaire raccroche avant d'avoir été pris en charge.

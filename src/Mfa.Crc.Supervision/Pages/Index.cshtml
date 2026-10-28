@@ -1,0 +1,19 @@
+@page
+@inject EtatCrc Etat
+@{
+    ViewData["Titre"] = "Poste de supervision";
+}
+
+<section class="panneau">
+    <h2>Bienvenue sur la supervision du CRC</h2>
+    <p>Heure simulée : <span class="mono">@Etat.Heure.ToString(@"hh\:mm\:ss")</span> ·
+       @Etat.FileAttente.Count contact(s) en attente ·
+       @Etat.Plateau.Count(c => c.Statut != StatutConseiller.HorsLigne) conseiller(s) connecté(s)</p>
+</section>
+
+<div class="liens-moniteurs">
+    <a href="/moniteur/1"><strong>Moniteur 1 · File d'attente</strong>Qui attend, depuis combien de temps ?</a>
+    <a class="indisponible" href="#"><strong>Moniteur 2 · Plateau</strong>À développer</a>
+    <a class="indisponible" href="#"><strong>Moniteur 3 · Dossier</strong>À développer</a>
+    <a class="indisponible" href="#"><strong>Moniteur 4 · Indicateurs</strong>À développer</a>
+</div>
