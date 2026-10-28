@@ -14,6 +14,7 @@ namespace Mfa.Crc.Simulateur;
 public sealed class SimulateurCrc
 {
     private readonly List<Evenement> _evenements;
+    private int _prochain;   // index du prochain événement à rejouer
 
     public event EventHandler<ContactArrive>? ContactArrive;
     public event EventHandler<ContactDecroche>? ContactDecroche;
@@ -63,29 +64,35 @@ public sealed class SimulateurCrc
     /// </summary>
     public async Task RejouerAsync(CancellationToken jeton = default)
     {
-        foreach (var e in _evenements)
+        while (_prochain < _evenements.Count)
         {
+            var e = _evenements[_prochain];
             var ecart = e.Heure - HeureSimulee;
             if (ecart > TimeSpan.Zero && Acceleration > 0)
             {
                 await Task.Delay(TimeSpan.FromTicks((long)(ecart.Ticks / Acceleration)), jeton)
                           .ConfigureAwait(false);
             }
+            _prochain++;
             HeureSimulee = e.Heure;
             Publier(e);
         }
         Termine?.Invoke(this, EventArgs.Empty);
     }
 
-    /// <summary>Rejoue d'un coup tous les événements jusqu'à l'heure donnée (utile pour les tests).</summary>
+    /// <summary>
+    /// Rejoue d'un coup tous les événements jusqu'à l'heure donnée incluse (utile pour les tests).
+    /// Un appel suivant, ou <see cref="RejouerAsync"/>, reprend là où celui-ci s'est arrêté.
+    /// </summary>
     public void AvancerJusqua(TimeSpan heure)
     {
-        foreach (var e in _evenements.Where(x => x.Heure > HeureSimulee && x.Heure <= heure))
+        while (_prochain < _evenements.Count && _evenements[_prochain].Heure <= heure)
         {
+            var e = _evenements[_prochain++];
             HeureSimulee = e.Heure;
             Publier(e);
         }
-        HeureSimulee = heure;
+        if (heure > HeureSimulee) HeureSimulee = heure;
     }
 
     private void Publier(Evenement e)
