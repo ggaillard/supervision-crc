@@ -1,0 +1,304 @@
+{
+  "files": [
+    "Sinistres",
+    "Contrats",
+    "Sante",
+    "Accueil"
+  ],
+  "conseillers": [
+    {
+      "id": "C01",
+      "nom": "Belaïd",
+      "prenom": "Karim",
+      "competences": [
+        "Sinistres"
+      ],
+      "niveau": 2,
+      "teletravail": false,
+      "canaux": [
+        "Telephone",
+        "Chat",
+        "Email",
+        "Rappel"
+      ]
+    },
+    {
+      "id": "C02",
+      "nom": "Marchand",
+      "prenom": "Julie",
+      "competences": [
+        "Sinistres"
+      ],
+      "niveau": 1,
+      "teletravail": false,
+      "canaux": [
+        "Telephone",
+        "Chat",
+        "Email",
+        "Rappel"
+      ]
+    },
+    {
+      "id": "C03",
+      "nom": "Ribeiro",
+      "prenom": "Thomas",
+      "competences": [
+        "Sinistres"
+      ],
+      "niveau": 1,
+      "teletravail": false,
+      "canaux": [
+        "Telephone",
+        "Chat",
+        "Email",
+        "Rappel"
+      ]
+    },
+    {
+      "id": "C04",
+      "nom": "Lacroix",
+      "prenom": "Sonia",
+      "competences": [
+        "Contrats",
+        "Sante"
+      ],
+      "niveau": 1,
+      "teletravail": false,
+      "canaux": [
+        "Telephone",
+        "Chat",
+        "Email",
+        "Rappel"
+      ]
+    },
+    {
+      "id": "C05",
+      "nom": "Delorme",
+      "prenom": "Marc",
+      "competences": [
+        "Contrats"
+      ],
+      "niveau": 1,
+      "teletravail": false,
+      "canaux": [
+        "Telephone",
+        "Chat",
+        "Email",
+        "Rappel"
+      ]
+    },
+    {
+      "id": "C06",
+      "nom": "Chazal",
+      "prenom": "Élodie",
+      "competences": [
+        "Sante"
+      ],
+      "niveau": 1,
+      "teletravail": false,
+      "canaux": [
+        "Telephone",
+        "Chat",
+        "Email",
+        "Rappel"
+      ]
+    },
+    {
+      "id": "C07",
+      "nom": "Ferhat",
+      "prenom": "Nadia",
+      "competences": [
+        "Sante"
+      ],
+      "niveau": 1,
+      "teletravail": false,
+      "canaux": [
+        "Telephone",
+        "Chat",
+        "Email",
+        "Rappel"
+      ]
+    },
+    {
+      "id": "C08",
+      "nom": "Vial",
+      "prenom": "Romain",
+      "competences": [
+        "Sinistres",
+        "Contrats"
+      ],
+      "niveau": 1,
+      "teletravail": false,
+      "canaux": [
+        "Telephone",
+        "Chat",
+        "Email",
+        "Rappel"
+      ]
+    },
+    {
+      "id": "C09",
+      "nom": "Besson",
+      "prenom": "Claire",
+      "competences": [
+        "Contrats"
+      ],
+      "niveau": 1,
+      "teletravail": false,
+      "canaux": [
+        "Telephone",
+        "Chat",
+        "Email",
+        "Rappel"
+      ]
+    },
+    {
+      "id": "C10",
+      "nom": "Ammar",
+      "prenom": "Yacine",
+      "competences": [
+        "Contrats",
+        "Accueil"
+      ],
+      "niveau": 1,
+      "teletravail": true,
+      "canaux": [
+        "Telephone",
+        "Chat",
+        "Email",
+        "Rappel"
+      ]
+    },
+    {
+      "id": "C11",
+      "nom": "Picard",
+      "prenom": "Laura",
+      "competences": [
+        "Sante"
+      ],
+      "niveau": 1,
+      "teletravail": false,
+      "canaux": [
+        "Telephone",
+        "Chat",
+        "Email",
+        "Rappel"
+      ]
+    },
+    {
+      "id": "C12",
+      "nom": "Tissot",
+      "prenom": "Benoît",
+      "competences": [
+        "Sinistres"
+      ],
+      "niveau": 1,
+      "teletravail": false,
+      "canaux": [
+        "Telephone",
+        "Chat",
+        "Email",
+        "Rappel"
+      ]
+    },
+    {
+      "id": "C13",
+      "nom": "Rouchon",
+      "prenom": "Inès",
+      "competences": [
+        "Contrats"
+      ],
+      "niveau": 1,
+      "teletravail": false,
+      "canaux": [
+        "Telephone",
+        "Chat",
+        "Email",
+        "Rappel"
+      ]
+    },
+    {
+      "id": "C14",
+      "nom": "Moulin",
+      "prenom": "Damien",
+      "competences": [
+        "Sinistres"
+      ],
+      "niveau": 2,
+      "teletravail": false,
+      "canaux": [
+        "Telephone",
+        "Chat",
+        "Email",
+        "Rappel"
+      ]
+    },
+    {
+      "id": "C15",
+      "nom": "Gauthier",
+      "prenom": "Céline",
+      "competences": [
+        "Sante",
+        "Accueil"
+      ],
+      "niveau": 1,
+      "teletravail": false,
+      "canaux": [
+        "Telephone",
+        "Chat",
+        "Email",
+        "Rappel"
+      ]
+    },
+    {
+      "id": "C16",
+      "nom": "Brunel",
+      "prenom": "Hugo",
+      "competences": [
+        "Contrats"
+      ],
+      "niveau": 1,
+      "teletravail": false,
+      "canaux": [
+        "Telephone",
+        "Chat",
+        "Email",
+        "Rappel"
+      ]
+    },
+    {
+      "id": "C17",
+      "nom": "Rey",
+      "prenom": "Anaïs",
+      "competences": [
+        "Sante",
+        "Accueil"
+      ],
+      "niveau": 1,
+      "teletravail": true,
+      "canaux": [
+        "Telephone",
+        "Chat",
+        "Email",
+        "Rappel"
+      ]
+    },
+    {
+      "id": "C18",
+      "nom": "Masson",
+      "prenom": "Paul",
+      "competences": [
+        "Contrats",
+        "Accueil"
+      ],
+      "niveau": 1,
+      "teletravail": false,
+      "canaux": [
+        "Telephone",
+        "Chat",
+        "Email",
+        "Rappel"
+      ]
+    }
+  ]
+}

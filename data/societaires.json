@@ -1,0 +1,592 @@
+{
+  "avertissement": "Données entièrement fictives.",
+  "societaires": [
+    {
+      "id": "S001",
+      "nom": "ROCHE",
+      "prenom": "Hélène",
+      "ville": "Saint-Étienne",
+      "societaireDepuis": 2011,
+      "contrats": [
+        {
+          "numero": "AUTO-FICT-0001",
+          "type": "Auto",
+          "formule": "Tous risques",
+          "depuis": 2016
+        },
+        {
+          "numero": "HAB-FICT-0002",
+          "type": "Habitation",
+          "formule": "Locataire",
+          "depuis": 2011
+        },
+        {
+          "numero": "SANTE-FICT-0003",
+          "type": "Santé",
+          "formule": "Renfort",
+          "depuis": 2021
+        }
+      ],
+      "sinistres": [
+        {
+          "id": "SIN-FICT-0187",
+          "contrat": "AUTO-FICT-0001",
+          "nature": "Collision",
+          "declareLe": "2026-10-06",
+          "statut": "Expertise contestée",
+          "responsabiliteRetenue": 50
+        }
+      ],
+      "reclamations": [
+        {
+          "id": "REC-FICT-0042",
+          "sinistre": "SIN-FICT-0187",
+          "niveau": 2,
+          "recueLe": "2026-10-20",
+          "accuseReceptionLe": "2026-10-21",
+          "reponseLe": null,
+          "objet": "Contestation du rapport d'expertise"
+        }
+      ]
+    },
+    {
+      "id": "S002",
+      "nom": "FABRE",
+      "prenom": "Michel",
+      "ville": "Saint-Chamond",
+      "societaireDepuis": 2024,
+      "contrats": [
+        {
+          "numero": "AUTO-FICT-0004",
+          "type": "Auto",
+          "formule": "Tiers",
+          "depuis": 2024
+        }
+      ],
+      "sinistres": [],
+      "reclamations": []
+    },
+    {
+      "id": "S003",
+      "nom": "DUMAS",
+      "prenom": "Lucie",
+      "ville": "Firminy",
+      "societaireDepuis": 2014,
+      "contrats": [
+        {
+          "numero": "AUTO-FICT-0005",
+          "type": "Auto",
+          "formule": "Tiers",
+          "depuis": 2016
+        },
+        {
+          "numero": "SANTE-FICT-0006",
+          "type": "Santé",
+          "formule": "Renfort",
+          "depuis": 2021
+        },
+        {
+          "numero": "HAB-FICT-0007",
+          "type": "Habitation",
+          "formule": "Propriétaire",
+          "depuis": 2014
+        }
+      ],
+      "sinistres": [
+        {
+          "id": "SIN-FICT-0874",
+          "contrat": "AUTO-FICT-0005",
+          "nature": "Bris de glace",
+          "declareLe": "2026-10-14",
+          "statut": "En cours",
+          "responsabiliteRetenue": null
+        }
+      ],
+      "reclamations": []
+    },
+    {
+      "id": "S004",
+      "nom": "GIRARD",
+      "prenom": "Pierre",
+      "ville": "Roanne",
+      "societaireDepuis": 2019,
+      "contrats": [
+        {
+          "numero": "AUTO-FICT-0008",
+          "type": "Auto",
+          "formule": "Tiers étendu",
+          "depuis": 2019
+        },
+        {
+          "numero": "SANTE-FICT-0009",
+          "type": "Santé",
+          "formule": "Essentielle",
+          "depuis": 2022
+        }
+      ],
+      "sinistres": [
+        {
+          "id": "SIN-FICT-0678",
+          "contrat": "SANTE-FICT-0009",
+          "nature": "Hospitalisation",
+          "declareLe": "2026-10-24",
+          "statut": "En cours",
+          "responsabiliteRetenue": null
+        }
+      ],
+      "reclamations": []
+    },
+    {
+      "id": "S005",
+      "nom": "BONNET",
+      "prenom": "Sylvie",
+      "ville": "Montbrison",
+      "societaireDepuis": 2010,
+      "contrats": [
+        {
+          "numero": "AUTO-FICT-0010",
+          "type": "Auto",
+          "formule": "Tous risques",
+          "depuis": 2019
+        },
+        {
+          "numero": "HAB-FICT-0011",
+          "type": "Habitation",
+          "formule": "Locataire",
+          "depuis": 2010
+        },
+        {
+          "numero": "SANTE-FICT-0012",
+          "type": "Santé",
+          "formule": "Confort",
+          "depuis": 2010
+        }
+      ],
+      "sinistres": [
+        {
+          "id": "SIN-FICT-0861",
+          "contrat": "SANTE-FICT-0012",
+          "nature": "Hospitalisation",
+          "declareLe": "2026-10-04",
+          "statut": "En cours",
+          "responsabiliteRetenue": null
+        }
+      ],
+      "reclamations": []
+    },
+    {
+      "id": "S006",
+      "nom": "PERRET",
+      "prenom": "Alain",
+      "ville": "Rive-de-Gier",
+      "societaireDepuis": 2019,
+      "contrats": [
+        {
+          "numero": "AUTO-FICT-0013",
+          "type": "Auto",
+          "formule": "Tiers étendu",
+          "depuis": 2019
+        }
+      ],
+      "sinistres": [
+        {
+          "id": "SIN-FICT-0311",
+          "contrat": "AUTO-FICT-0013",
+          "nature": "Bris de glace",
+          "declareLe": "2026-10-08",
+          "statut": "En cours",
+          "responsabiliteRetenue": null
+        }
+      ],
+      "reclamations": []
+    },
+    {
+      "id": "S007",
+      "nom": "ROYER",
+      "prenom": "Jeanne",
+      "ville": "Andrézieux-Bouthéon",
+      "societaireDepuis": 2016,
+      "contrats": [
+        {
+          "numero": "HAB-FICT-0014",
+          "type": "Habitation",
+          "formule": "Locataire",
+          "depuis": 2016
+        }
+      ],
+      "sinistres": [
+        {
+          "id": "SIN-FICT-0343",
+          "contrat": "HAB-FICT-0014",
+          "nature": "Dégât des eaux",
+          "declareLe": "2026-10-14",
+          "statut": "En cours",
+          "responsabiliteRetenue": null
+        }
+      ],
+      "reclamations": []
+    },
+    {
+      "id": "S008",
+      "nom": "COLLET",
+      "prenom": "Nicolas",
+      "ville": "Feurs",
+      "societaireDepuis": 2015,
+      "contrats": [
+        {
+          "numero": "SANTE-FICT-0015",
+          "type": "Santé",
+          "formule": "Renfort",
+          "depuis": 2015
+        }
+      ],
+      "sinistres": [
+        {
+          "id": "SIN-FICT-0455",
+          "contrat": "SANTE-FICT-0015",
+          "nature": "Hospitalisation",
+          "declareLe": "2026-10-03",
+          "statut": "En cours",
+          "responsabiliteRetenue": null
+        }
+      ],
+      "reclamations": []
+    },
+    {
+      "id": "S009",
+      "nom": "VERNET",
+      "prenom": "Marc",
+      "ville": "Saint-Étienne",
+      "societaireDepuis": 2025,
+      "contrats": [
+        {
+          "numero": "HAB-FICT-0016",
+          "type": "Habitation",
+          "formule": "Propriétaire",
+          "depuis": 2025
+        }
+      ],
+      "sinistres": [],
+      "reclamations": [
+        {
+          "id": "REC-FICT-0039",
+          "sinistre": null,
+          "niveau": 1,
+          "recueLe": "2026-09-02",
+          "accuseReceptionLe": "2026-09-08",
+          "reponseLe": null,
+          "objet": "Retard de remboursement"
+        }
+      ]
+    },
+    {
+      "id": "S010",
+      "nom": "FAURE",
+      "prenom": "Aline",
+      "ville": "Saint-Chamond",
+      "societaireDepuis": 2009,
+      "contrats": [
+        {
+          "numero": "SANTE-FICT-0017",
+          "type": "Santé",
+          "formule": "Essentielle",
+          "depuis": 2009
+        }
+      ],
+      "sinistres": [],
+      "reclamations": []
+    },
+    {
+      "id": "S011",
+      "nom": "BRUN",
+      "prenom": "Jacques",
+      "ville": "Firminy",
+      "societaireDepuis": 2018,
+      "contrats": [
+        {
+          "numero": "HAB-FICT-0018",
+          "type": "Habitation",
+          "formule": "Locataire",
+          "depuis": 2018
+        },
+        {
+          "numero": "SANTE-FICT-0019",
+          "type": "Santé",
+          "formule": "Confort",
+          "depuis": 2022
+        }
+      ],
+      "sinistres": [],
+      "reclamations": []
+    },
+    {
+      "id": "S012",
+      "nom": "MATHIEU",
+      "prenom": "Odile",
+      "ville": "Roanne",
+      "societaireDepuis": 2025,
+      "contrats": [
+        {
+          "numero": "HAB-FICT-0020",
+          "type": "Habitation",
+          "formule": "Locataire",
+          "depuis": 2025
+        }
+      ],
+      "sinistres": [],
+      "reclamations": []
+    },
+    {
+      "id": "S013",
+      "nom": "GARNIER",
+      "prenom": "Luc",
+      "ville": "Montbrison",
+      "societaireDepuis": 2011,
+      "contrats": [
+        {
+          "numero": "HAB-FICT-0021",
+          "type": "Habitation",
+          "formule": "Locataire",
+          "depuis": 2024
+        },
+        {
+          "numero": "SANTE-FICT-0022",
+          "type": "Santé",
+          "formule": "Essentielle",
+          "depuis": 2011
+        },
+        {
+          "numero": "AUTO-FICT-0023",
+          "type": "Auto",
+          "formule": "Tiers",
+          "depuis": 2021
+        }
+      ],
+      "sinistres": [],
+      "reclamations": []
+    },
+    {
+      "id": "S014",
+      "nom": "CHEVALIER",
+      "prenom": "Rose",
+      "ville": "Rive-de-Gier",
+      "societaireDepuis": 2011,
+      "contrats": [
+        {
+          "numero": "AUTO-FICT-0024",
+          "type": "Auto",
+          "formule": "Tous risques",
+          "depuis": 2016
+        },
+        {
+          "numero": "HAB-FICT-0025",
+          "type": "Habitation",
+          "formule": "Locataire",
+          "depuis": 2011
+        },
+        {
+          "numero": "SANTE-FICT-0026",
+          "type": "Santé",
+          "formule": "Renfort",
+          "depuis": 2018
+        }
+      ],
+      "sinistres": [],
+      "reclamations": []
+    },
+    {
+      "id": "S015",
+      "nom": "MORIN",
+      "prenom": "Gilles",
+      "ville": "Andrézieux-Bouthéon",
+      "societaireDepuis": 2008,
+      "contrats": [
+        {
+          "numero": "HAB-FICT-0027",
+          "type": "Habitation",
+          "formule": "Locataire",
+          "depuis": 2008
+        }
+      ],
+      "sinistres": [],
+      "reclamations": []
+    },
+    {
+      "id": "S016",
+      "nom": "BLANC",
+      "prenom": "Patricia",
+      "ville": "Feurs",
+      "societaireDepuis": 2017,
+      "contrats": [
+        {
+          "numero": "SANTE-FICT-0028",
+          "type": "Santé",
+          "formule": "Renfort",
+          "depuis": 2017
+        },
+        {
+          "numero": "AUTO-FICT-0029",
+          "type": "Auto",
+          "formule": "Tous risques",
+          "depuis": 2019
+        }
+      ],
+      "sinistres": [],
+      "reclamations": []
+    },
+    {
+      "id": "S017",
+      "nom": "GUERIN",
+      "prenom": "Denis",
+      "ville": "Saint-Étienne",
+      "societaireDepuis": 2018,
+      "contrats": [
+        {
+          "numero": "SANTE-FICT-0030",
+          "type": "Santé",
+          "formule": "Renfort",
+          "depuis": 2018
+        }
+      ],
+      "sinistres": [],
+      "reclamations": []
+    },
+    {
+      "id": "S018",
+      "nom": "BOYER",
+      "prenom": "Martine",
+      "ville": "Saint-Chamond",
+      "societaireDepuis": 2009,
+      "contrats": [
+        {
+          "numero": "AUTO-FICT-0031",
+          "type": "Auto",
+          "formule": "Tiers étendu",
+          "depuis": 2009
+        },
+        {
+          "numero": "SANTE-FICT-0032",
+          "type": "Santé",
+          "formule": "Essentielle",
+          "depuis": 2023
+        }
+      ],
+      "sinistres": [],
+      "reclamations": []
+    },
+    {
+      "id": "S019",
+      "nom": "ROBIN",
+      "prenom": "Éric",
+      "ville": "Firminy",
+      "societaireDepuis": 2023,
+      "contrats": [
+        {
+          "numero": "SANTE-FICT-0033",
+          "type": "Santé",
+          "formule": "Renfort",
+          "depuis": 2023
+        }
+      ],
+      "sinistres": [],
+      "reclamations": []
+    },
+    {
+      "id": "S020",
+      "nom": "CLEMENT",
+      "prenom": "Agnès",
+      "ville": "Roanne",
+      "societaireDepuis": 2015,
+      "contrats": [
+        {
+          "numero": "AUTO-FICT-0034",
+          "type": "Auto",
+          "formule": "Tiers",
+          "depuis": 2017
+        },
+        {
+          "numero": "HAB-FICT-0035",
+          "type": "Habitation",
+          "formule": "Propriétaire",
+          "depuis": 2024
+        },
+        {
+          "numero": "SANTE-FICT-0036",
+          "type": "Santé",
+          "formule": "Essentielle",
+          "depuis": 2015
+        }
+      ],
+      "sinistres": [],
+      "reclamations": []
+    },
+    {
+      "id": "S021",
+      "nom": "FONTAINE",
+      "prenom": "Yves",
+      "ville": "Montbrison",
+      "societaireDepuis": 2015,
+      "contrats": [
+        {
+          "numero": "HAB-FICT-0037",
+          "type": "Habitation",
+          "formule": "Locataire",
+          "depuis": 2015
+        }
+      ],
+      "sinistres": [],
+      "reclamations": []
+    },
+    {
+      "id": "S022",
+      "nom": "LEMOINE",
+      "prenom": "Claire",
+      "ville": "Rive-de-Gier",
+      "societaireDepuis": 2010,
+      "contrats": [
+        {
+          "numero": "AUTO-FICT-0038",
+          "type": "Auto",
+          "formule": "Tous risques",
+          "depuis": 2010
+        }
+      ],
+      "sinistres": [],
+      "reclamations": []
+    },
+    {
+      "id": "S023",
+      "nom": "ARNAUD",
+      "prenom": "Bruno",
+      "ville": "Andrézieux-Bouthéon",
+      "societaireDepuis": 2023,
+      "contrats": [
+        {
+          "numero": "HAB-FICT-0039",
+          "type": "Habitation",
+          "formule": "Locataire",
+          "depuis": 2023
+        }
+      ],
+      "sinistres": [],
+      "reclamations": []
+    },
+    {
+      "id": "S024",
+      "nom": "ROLLAND",
+      "prenom": "Josiane",
+      "ville": "Feurs",
+      "societaireDepuis": 2023,
+      "contrats": [
+        {
+          "numero": "SANTE-FICT-0040",
+          "type": "Santé",
+          "formule": "Essentielle",
+          "depuis": 2023
+        }
+      ],
+      "sinistres": [],
+      "reclamations": []
+    }
+  ]
+}

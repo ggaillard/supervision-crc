@@ -1,0 +1,126 @@
+using System.Text.Json;
+
+namespace Mfa.Crc.Simulateur;
+
+/// <summary>
+/// Rejoue un scénario de matinée du centre de relation client et déclenche un événement C#
+/// pour chaque fait (contact qui arrive, conseiller qui change de statut…).
+/// </summary>
+/// <remarks>
+/// Les événements sont déclenchés depuis un thread de travail. Dans une application WPF,
+/// repassez sur le thread de l'interface avant de toucher aux vues
+/// (Application.Current.Dispatcher.Invoke).
+/// </remarks>
+public sealed class SimulateurCrc
+{
+    private readonly List<Evenement> _evenements;
+
+    public event EventHandler<ContactArrive>? ContactArrive;
+    public event EventHandler<ContactDecroche>? ContactDecroche;
+    public event EventHandler<ContactAbandonne>? ContactAbandonne;
+    public event EventHandler<ContactClos>? ContactClos;
+    public event EventHandler<StatutConseillerChange>? StatutConseillerChange;
+    public event EventHandler<EscaladeSuperviseur>? EscaladeSuperviseur;
+
+    /// <summary>Déclenché à chaque événement, quel que soit son type.</summary>
+    public event EventHandler<Evenement>? EvenementRejoue;
+
+    /// <summary>Déclenché à la fin du scénario.</summary>
+    public event EventHandler? Termine;
+
+    /// <summary>Nombre de secondes simulées par seconde réelle (60 = une minute par seconde).</summary>
+    public double Acceleration { get; set; } = 60;
+
+    /// <summary>Heure simulée du dernier événement rejoué.</summary>
+    public TimeSpan HeureSimulee { get; private set; }
+
+    /// <summary>Tous les événements du scénario, dans l'ordre.</summary>
+    public IReadOnlyList<Evenement> Evenements => _evenements;
+
+    private SimulateurCrc(List<Evenement> evenements, TimeSpan debut)
+    {
+        _evenements = evenements;
+        HeureSimulee = debut;
+    }
+
+    /// <summary>Charge un scénario au format de data/scenario-matinee.json.</summary>
+    public static SimulateurCrc Charger(string cheminScenario)
+    {
+        using var doc = JsonDocument.Parse(File.ReadAllText(cheminScenario));
+        var racine = doc.RootElement;
+        var debut = TimeSpan.Parse(racine.GetProperty("debut").GetString()!);
+        var liste = new List<Evenement>();
+        foreach (var e in racine.GetProperty("evenements").EnumerateArray())
+        {
+            liste.Add(Lire(e));
+        }
+        return new SimulateurCrc(liste, debut);
+    }
+
+    /// <summary>
+    /// Rejoue le scénario en respectant les écarts de temps (divisés par <see cref="Acceleration"/>).
+    /// À appeler sans bloquer l'interface : <c>_ = simulateur.RejouerAsync(jeton);</c>
+    /// </summary>
+    public async Task RejouerAsync(CancellationToken jeton = default)
+    {
+        foreach (var e in _evenements)
+        {
+            var ecart = e.Heure - HeureSimulee;
+            if (ecart > TimeSpan.Zero && Acceleration > 0)
+            {
+                await Task.Delay(TimeSpan.FromTicks((long)(ecart.Ticks / Acceleration)), jeton)
+                          .ConfigureAwait(false);
+            }
+            HeureSimulee = e.Heure;
+            Publier(e);
+        }
+        Termine?.Invoke(this, EventArgs.Empty);
+    }
+
+    /// <summary>Rejoue d'un coup tous les événements jusqu'à l'heure donnée (utile pour les tests).</summary>
+    public void AvancerJusqua(TimeSpan heure)
+    {
+        foreach (var e in _evenements.Where(x => x.Heure > HeureSimulee && x.Heure <= heure))
+        {
+            HeureSimulee = e.Heure;
+            Publier(e);
+        }
+        HeureSimulee = heure;
+    }
+
+    private void Publier(Evenement e)
+    {
+        switch (e)
+        {
+            case ContactArrive x: ContactArrive?.Invoke(this, x); break;
+            case ContactDecroche x: ContactDecroche?.Invoke(this, x); break;
+            case ContactAbandonne x: ContactAbandonne?.Invoke(this, x); break;
+            case ContactClos x: ContactClos?.Invoke(this, x); break;
+            case StatutConseillerChange x: StatutConseillerChange?.Invoke(this, x); break;
+            case EscaladeSuperviseur x: EscaladeSuperviseur?.Invoke(this, x); break;
+        }
+        EvenementRejoue?.Invoke(this, e);
+    }
+
+    private static Evenement Lire(JsonElement e)
+    {
+        var heure = TimeSpan.FromSeconds(e.GetProperty("t").GetInt32());
+        string S(string nom) => e.GetProperty(nom).GetString()!;
+        T En<T>(string nom) where T : struct, Enum => Enum.Parse<T>(S(nom));
+
+        return S("type") switch
+        {
+            "ContactArrive" => new ContactArrive(heure, S("contactId"), S("file"), En<Canal>("canal"),
+                En<Priorite>("priorite"), S("societaireId"), S("motif")),
+            "ContactDecroche" => new ContactDecroche(heure, S("contactId"), S("conseillerId")),
+            "ContactAbandonne" => new ContactAbandonne(heure, S("contactId")),
+            "ContactClos" => new ContactClos(heure, S("contactId"), S("conseillerId"),
+                e.GetProperty("satisfaction").GetInt32(), e.GetProperty("resoluPremierContact").GetBoolean()),
+            "StatutConseillerChange" => new StatutConseillerChange(heure, S("conseillerId"),
+                En<StatutConseiller>("statut")),
+            "EscaladeSuperviseur" => new EscaladeSuperviseur(heure, S("contactId"), S("conseillerId"),
+                S("societaireId"), S("reclamationId")),
+            var t => throw new InvalidDataException($"Type d'événement inconnu : {t}")
+        };
+    }
+}

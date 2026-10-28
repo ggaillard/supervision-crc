@@ -1,0 +1,30 @@
+{
+  "poste": "SUP-CRC-01",
+  "moniteurs": [
+    { "vue": "FileAttente",  "ecran": 1, "position": "haut-gauche" },
+    { "vue": "Plateau",      "ecran": 2, "position": "haut-droite" },
+    { "vue": "Dossier",      "ecran": 3, "position": "bas-gauche" },
+    { "vue": "Indicateurs",  "ecran": 4, "position": "bas-droite" }
+  ],
+  "repliEnFenetres": true,
+  "seuils": {
+    "appelLongMinutes": 10,
+    "pauseLongueMinutes": 10,
+    "niveauServiceSecondes": 20,
+    "niveauServiceAlertePourcent": 80,
+    "niveauServiceAlerteDureeMinutes": 10,
+    "reclamationAlerteJoursAvant": 5
+  },
+  "objectifs": {
+    "tauxDecrochePourcent": 95,
+    "dmtMinutes": 7,
+    "resolutionPremierContactPourcent": 75,
+    "satisfaction": 4.0,
+    "niveauServicePourcent": 80
+  },
+  "actualisation": {
+    "fileAttenteSecondes": 5,
+    "plateauSecondes": 5,
+    "indicateursSecondes": 60
+  }
+}
