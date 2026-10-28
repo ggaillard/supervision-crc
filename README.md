@@ -2,7 +2,7 @@
 
 <div align="center">
 
-**[🗺️ Parcours](PARCOURS.md)** · **[📋 Ma progression](PROGRESSION.md)** · **[🚑 Dépannage](DEPANNAGE.md)** · **[🎓 Fiches de cours](cours/README.md)** · **[📐 Cahier des charges](docs/cahier-des-charges.md)**
+**[🎬 Vidéo de présentation](docs/video/README.md)** · **[🗺️ Parcours](PARCOURS.md)** · **[📋 Ma progression](PROGRESSION.md)** · **[📝 Mon carnet](CARNET.md)** · **[🎓 Fiches de cours](cours/README.md)** · **[📐 Cahier des charges](docs/cahier-des-charges.md)** · **[🚑 Dépannage](DEPANNAGE.md)**
 
 </div>
 
@@ -65,7 +65,23 @@ trois sur quatre.
    dotnet test --filter Groupe=socle      # 8 tests verts : tout fonctionne
    ```
 
-Ensuite, ouvrez le **[Parcours](PARCOURS.md)** et commencez la séance 1.
+## 🧭 Ce que l'on attend de vous
+
+Tout le dépôt utilise quatre repères :
+
+| | | Concrètement |
+|---|---|---|
+| 📖 | **Lire** — rien à produire | la fiche de cours avant la séance ; le message de Mme Morel ; le code existant |
+| ✏️ | **Faire** — une trace à laisser | le code des missions (les tests le vérifient), vos réponses dans [`CARNET.md`](CARNET.md), un commit |
+| 🧠 | **Retenir** — sans la machine | cinq notions par séance, interrogées au contrôle d'entrée suivant |
+| 🎯 | **Pourquoi** | ce que la séance apporte à Mme Morel, et à votre métier |
+
+**À chaque séance, un seul fichier à suivre :** `seances/seance-NN.md`. Il commence par sa **feuille de route**
+(quoi lire, quoi faire et où, quoi retenir), puis vous guide pas à pas. Le [Parcours](PARCOURS.md) montre
+les huit séances d'un coup d'œil.
+
+Pour commencer : regardez la **[vidéo de présentation](docs/video/README.md)**, puis ouvrez la
+[séance 1](seances/seance-01.md).
 
 ## 🧪 Les tests sont votre cahier des charges
 
@@ -91,12 +107,13 @@ supervision-crc/
 ├── README.md                vous êtes ici
 ├── PARCOURS.md              la méthode et les 8 séances, dans l'ordre
 ├── PROGRESSION.md           vos cases à cocher (à committer)
+├── CARNET.md                vos réponses écrites, séance par séance (à committer)
 ├── DEPANNAGE.md             erreurs fréquentes, classées par message
 ├── lancer.sh                ▶ lance l'application (./lancer.sh, recette, neuf, arreter)
 ├── .vscode/                 Ctrl+Maj+B (lancer), F5 (déboguer), tâches de test
 ├── seances/                 un guide par séance (2 h)
 ├── cours/                   fiches de cours + auto-évaluations
-├── docs/                    cahier des charges (règles RG1 à RG7), maquettes
+├── docs/                    cahier des charges (règles RG1 à RG7), maquettes, vidéo de présentation
 ├── e5/                      fiche de réalisation pour votre tableau de synthèse E5
 ├── data/                    conseillers, sociétaires, scénario de la matinée (fictifs)
 ├── config/poste.json        quelle vue sur quel moniteur, seuils, objectifs

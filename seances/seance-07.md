@@ -2,13 +2,42 @@
 
 > **Durée** 2 h · **Tests** `dotnet test --filter Groupe=seance-07` · **Fiche de cours** [Indicateurs et dates](../cours/07-indicateurs.md)
 
-## 🎯 Objectifs
+## 🧭 Feuille de route
 
-- Définir un **indicateur** de façon calculable, sans ambiguïté
-- Calculer sur une **fenêtre glissante** (RG3) et avec des **jours ouvrables** (RG5)
-- Lever des alertes, les **acquitter**, ne **jamais** les effacer (RG6)
+> 🎯 **Pourquoi cette séance ?** La direction suit quatre chiffres chaque jour, recopiés à la main d'un tableur. Le moniteur 4 doit les calculer en direct et alerter avant qu'il soit trop tard.
+> **Pour le métier :** traduire une **définition métier** en calcul exact : un indicateur faux, c'est une mauvaise décision de la direction ; une échéance ratée, c'est une sanction du régulateur.
+>
+> **À la fin, vous saurez :** définir un indicateur sans ambiguïté (numérateur, dénominateur, exclus) · calculer sur une fenêtre glissante (RG3) et en jours ouvrables (RG5) · lever des alertes, les acquitter, ne jamais les effacer (RG6)
 
-## 🎬 La situation
+### 📖 À lire — on lit, on ne produit rien
+
+| Quand | Quoi | Temps |
+|---|---|---|
+| **avant** la séance | la fiche [Indicateurs et dates](../cours/07-indicateurs.md), puis son auto-évaluation | 7 min |
+| au début | [la situation](#-la-situation) : le message de Mme Morel ; la section *Indicateurs*, RG3, RG5 et RG6 dans le [cahier des charges](../docs/cahier-des-charges.md) | 5 min |
+| avant de modifier | le code existant : `Regles/Indicateurs.cs`, `Regles/Echeances.cs`, `appsettings.json` | 10 min |
+
+### ✏️ À faire — chaque ligne laisse une trace que l'on peut vérifier
+
+*Chemins depuis `src/Mfa.Crc.Supervision/` · 🆕 fichier à créer · 🟢 guidé · 🟡 semi-guidé · 🔴 facultatif.*
+
+| Mission | | Vous produisez | Où | Preuve |
+|---|---|---|---|---|
+| 2 · Comprendre | 🟢 | les 4 fractions + 4 réponses écrites (dont un calcul de date) | `CARNET.md` | interrogation n° 2 |
+| 7.1 | 🟢 | les 4 indicateurs et `GET /api/indicateurs` | `Regles/Indicateurs.cs`, `Api/ApiIndicateurs.cs` 🆕, `Program.cs` | tests `m1` |
+| 7.2 | 🟡 | RG3 : le niveau de service sur 30 minutes | `Regles/Indicateurs.cs`, `appsettings.json` | tests `m2` |
+| 7.3 | 🟡 | RG5 : les échéances des réclamations | `Regles/Echeances.cs`, `Api/ApiIndicateurs.cs` | tests `m3` |
+| 7.4 | 🟢 | RG6 : alertes acquittées, jamais effacées ; le moniteur 4 | `Domaine/Entites.cs`, `Regles/ServiceAlertes.cs` 🆕, `Pages/Moniteurs/Indicateurs.cshtml` 🆕 et `.cs` | tests `m4` |
+| 7.5 | 🔴 | les indicateurs d'une seule file | `Api/ApiIndicateurs.cs` | bonus `s7_m5` |
+| **Fin** | ✅ | commit + push · cases cochées dans [`PROGRESSION.md`](../PROGRESSION.md) · journal au portail | dépôt, portail | onglet *Actions* vert |
+
+### 🧠 À retenir — interrogé dans l'interrogation n° 2 (début de la séance 8)
+
+**Indicateur** · **Fenêtre glissante** · **Jours ouvrables** · **Idempotence** · **Traçabilité (RG6)** — définitions en [fin de séance](#-à-retenir).
+
+---
+
+## 📖 La situation
 
 > **De :** Claire Morel
 > **Objet :** des chiffres pour la direction
@@ -26,10 +55,12 @@ Les définitions exactes sont dans le [cahier des charges](../docs/cahier-des-ch
 
 ## 1 ▶️ Lancer
 
-Ouvrez le cahier des charges, section *Indicateurs*. Pour chaque indicateur, écrivez la fraction :
+Ouvrez le cahier des charges, section *Indicateurs*. Pour chaque indicateur, écrivez la fraction dans [`CARNET.md`](../CARNET.md) :
 qu'y a-t-il au numérateur, au dénominateur ? Un contact **encore en attente** compte-t-il ?
 
 ## 2 🔍 Comprendre
+
+> ✏️ Répondez dans [`CARNET.md`](../CARNET.md), section *Séance 7* : quelques lignes, avec vos mots.
 
 1. Pourquoi le niveau de service se calcule-t-il sur les **30 dernières minutes** plutôt que depuis 8 h ?
 2. Un contact arrivé il y a 5 secondes et pas encore décroché : à temps ou en retard ? Que faire de lui ?
@@ -138,7 +169,7 @@ git add -A && git commit -m "feat: moniteur 4, indicateurs, RG3, RG5, alertes ac
 
 ---
 
-## 📌 Concepts à connaître
+## 🧠 À retenir
 
 1. **Indicateur** — une fraction définie sans ambiguïté : ce qui compte au numérateur, au dénominateur, et ce qui est exclu.
 2. **Fenêtre glissante** — on ne regarde que les N dernières minutes : l'indicateur réagit vite et oublie la matinée.
@@ -146,6 +177,6 @@ git add -A && git commit -m "feat: moniteur 4, indicateurs, RG3, RG5, alertes ac
 4. **Idempotence** — relancer `Generer()` ne duplique rien : une alerte ouverte n'est pas levée deux fois.
 5. **Traçabilité (RG6)** — on acquitte (qui, quand), on ne supprime pas : l'historique sert en cas de litige ou d'audit.
 
-## 📓 Journal de fin de séance (portail)
+## ✏️ Journal de fin de séance (portail)
 
 Ce que j'ai fait · ce qui m'a bloqué · ce que j'ai compris aujourd'hui.

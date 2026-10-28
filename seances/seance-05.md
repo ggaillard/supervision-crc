@@ -4,13 +4,42 @@
 
 > ✍️ **0 – 30 min : interrogation écrite n° 1** (séances 1 à 4), sur papier, sans document.
 
-## 🎯 Objectifs
+## 🧭 Feuille de route
 
-- Passer du **pull** (la page redemande toutes les 5 s) au **push** (le serveur prévient quand l'état change)
-- Lire la **configuration du poste** : quelle vue sur quel moniteur
-- Partager un **état entre écrans** : ce que je sélectionne sur le moniteur 2 s'ouvre sur le moniteur 3
+> 🎯 **Pourquoi cette séance ?** Les moniteurs se rechargent toutes les 5 secondes : ça clignote et une escalade peut attendre pour rien. Le poste a quatre écrans : chaque vue doit aller sur le sien.
+> **Pour le métier :** faire **communiquer** plusieurs écrans en temps réel et décrire un poste de travail dans une configuration, sans recompiler.
+>
+> **À la fin, vous saurez :** passer du *pull* (la page redemande) au *push* (le serveur prévient) · lire la configuration du poste : quelle vue sur quel moniteur · partager un état entre écrans : je clique sur le 2, le 3 s'ouvre
 
-## 🎬 La situation
+### 📖 À lire — on lit, on ne produit rien
+
+| Quand | Quoi | Temps |
+|---|---|---|
+| **avant** la séance | la fiche [Temps réel avec SignalR](../cours/05-temps-reel.md), puis son auto-évaluation | 8 min |
+| au début | [la situation](#-la-situation) : le message de Mme Morel ; RG7 dans le [cahier des charges](../docs/cahier-des-charges.md) | 5 min |
+| avant de modifier | le code existant : `config/poste.json`, `TempsReel/EtatCrc.cs` (l'événement `Change`), `Pages/Moniteurs/FileAttente.cshtml` (la balise `refresh`) | 10 min |
+
+### ✏️ À faire — chaque ligne laisse une trace que l'on peut vérifier
+
+*Chemins depuis `src/Mfa.Crc.Supervision/` · 🆕 fichier à créer · 🟢 guidé · 🟡 semi-guidé · 🔴 facultatif.*
+
+| Mission | | Vous produisez | Où | Preuve |
+|---|---|---|---|---|
+| 2 · Comprendre | 🟢 | 4 réponses écrites : pull/push, sélection côté serveur | `CARNET.md` | contrôle d'entrée de la séance 6 |
+| 5.1 | 🟢 | le hub `/hubs/crc` diffuse chaque changement | `TempsReel/HubCrc.cs` 🆕, `Program.cs` | tests `m1` |
+| 5.2 | 🟢 | les moniteurs écoutent au lieu de se recharger | `wwwroot/js/moniteur.js` 🆕, moniteurs 1 et 2 | tests `m2` |
+| 5.3 | 🟡 | `GET /api/poste` : la configuration du poste | `Api/ApiPoste.cs` 🆕, `Program.cs` | tests `m3` |
+| 5.4 | 🟡 | une sélection partagée par les quatre moniteurs | `TempsReel/HubCrc.cs`, `wwwroot/js/plateau.js` 🆕, `Plateau.cshtml` | tests `m4` |
+| 5.5 | 🔴 | le lanceur `/poste` : 4 fenêtres sur 4 écrans | `Pages/Poste.cshtml` 🆕 | bonus `s5_m5` |
+| **Fin** | ✅ | commit + push · cases cochées dans [`PROGRESSION.md`](../PROGRESSION.md) · journal au portail | dépôt, portail | onglet *Actions* vert |
+
+### 🧠 À retenir — interrogé au contrôle d'entrée de la séance 6
+
+**Pull / push** · **Hub SignalR** · **`IHubContext<T>`** · **Configuration externe** · **État partagé** — définitions en [fin de séance](#-à-retenir).
+
+---
+
+## 📖 La situation
 
 > **De :** Claire Morel
 > **Objet :** l'écran clignote
@@ -33,6 +62,8 @@ Ouvrez le moniteur 1 et l'outil de développement du navigateur (F12 → **Rése
 en une minute, même quand rien ne change. Ouvrez `config/poste.json`.
 
 ## 2 🔍 Comprendre
+
+> ✏️ Répondez dans [`CARNET.md`](../CARNET.md), section *Séance 5* : quelques lignes, avec vos mots.
 
 1. Combien de requêtes par heure pour 4 moniteurs qui se rechargent toutes les 5 s ? Combien sont utiles ?
 2. Avec le *push*, qui prend l'initiative de la communication ?
@@ -158,7 +189,7 @@ git add -A && git commit -m "feat: temps réel SignalR, configuration du poste, 
 
 ---
 
-## 📌 Concepts à connaître
+## 🧠 À retenir
 
 1. **Pull / push** — pull : le client redemande sans cesse ; push : le serveur prévient quand quelque chose change.
 2. **Hub SignalR** — un point de connexion permanent (`/hubs/crc`) par lequel le serveur envoie des messages nommés aux clients.
@@ -166,6 +197,6 @@ git add -A && git commit -m "feat: temps réel SignalR, configuration du poste, 
 4. **Configuration externe** — `config/poste.json` décrit le poste ; le code s'adapte sans recompilation.
 5. **État partagé** — une seule `SelectionPartagee` côté serveur : les quatre moniteurs voient la même chose.
 
-## 📓 Journal de fin de séance (portail)
+## ✏️ Journal de fin de séance (portail)
 
 Ce que j'ai fait · ce qui m'a bloqué · ce que j'ai compris aujourd'hui.

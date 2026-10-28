@@ -2,13 +2,41 @@
 
 > **Durée** 2 h · **Tests** `dotnet test --filter Groupe=seance-02` · **Fiche de cours** [Associations et migrations EF Core](../cours/02-associations-migrations.md)
 
-## 🎯 Objectifs
+## 🧭 Feuille de route
 
-- Passer d'une colonne texte bricolée à une **association porteuse** (MCD → tables)
-- Faire évoluer une base **qui contient déjà des données** : ajouter, transférer, supprimer
-- Conserver un **historique** plutôt qu'écraser l'information
+> 🎯 **Pourquoi cette séance ?** Pour affecter les appels (séance 4), il faut savoir qui sait traiter quelle file ; les RH veulent aussi l'historique des statuts. Et la base est en service : on ne perd rien.
+> **Pour le métier :** faire évoluer une base **qui contient déjà des données** : c'est la situation la plus courante en entreprise, bien plus qu'une base neuve.
+>
+> **À la fin, vous saurez :** passer du MCD aux tables : l'association porteuse · écrire une migration qui reprend les données existantes · historiser une information au lieu de l'écraser
 
-## 🎬 La situation
+### 📖 À lire — on lit, on ne produit rien
+
+| Quand | Quoi | Temps |
+|---|---|---|
+| **avant** la séance | la fiche [Associations et migrations EF Core](../cours/02-associations-migrations.md), puis son auto-évaluation | 10 min |
+| au début | [la situation](#-la-situation) : le message de Mme Morel et le MCD juste en dessous | 5 min |
+| avant de modifier | le code existant : `Domaine/Entites.cs`, `Donnees/CrcContext.cs`, `Donnees/Migrations/…_InitialCreate.cs` | 10 min |
+
+### ✏️ À faire — chaque ligne laisse une trace que l'on peut vérifier
+
+*Chemins depuis `src/Mfa.Crc.Supervision/` · 🆕 fichier à créer · 🟢 guidé · 🟡 semi-guidé · 🔴 facultatif.*
+
+| Mission | | Vous produisez | Où | Preuve |
+|---|---|---|---|---|
+| 2 · Comprendre | 🟢 | 4 réponses écrites : clé composée, migration, durée de vie | `CARNET.md` | contrôle d'entrée de la séance 3 |
+| 2.1 | 🟢 | l'entité `Competence` (clé = le couple conseiller, file) | `Domaine/Entites.cs`, `Donnees/CrcContext.cs`, `Donnees/ChargeurDonnees.cs`, `Program.cs` | compilation, puis tests `m1` |
+| 2.2 | 🟢 | la migration de reprise : ajouter, transférer, supprimer | `Donnees/Migrations/…_Competences.cs` 🆕 (générée puis **corrigée**) | tests `m2` + `socle` |
+| 2.3 | 🟡 | l'historique des statuts | `Domaine/Entites.cs`, `TempsReel/JournalStatuts.cs` 🆕, `Program.cs` | tests `m3` |
+| 2.4 | 🔴 | la page `/conseillers?file=Sante` | `Pages/Conseillers/` 🆕 | bonus `s2_m5` |
+| **Fin** | ✅ | commit + push · cases cochées dans [`PROGRESSION.md`](../PROGRESSION.md) · journal au portail | dépôt, portail | onglet *Actions* vert |
+
+### 🧠 À retenir — interrogé au contrôle d'entrée de la séance 3
+
+**Association porteuse** · **Migration** · **Reprise de données** · **Conversion de valeur** · **Durée de vie des services** — définitions en [fin de séance](#-à-retenir).
+
+---
+
+## 📖 La situation
 
 > **De :** Claire Morel
 > **Objet :** qui traite quoi ?
@@ -55,6 +83,8 @@ sqlite3 src/Mfa.Crc.Supervision/crc.db "SELECT Id, Prenom, Competences FROM Cons
 C'est **votre** base « en production » : elle contient des données que la migration devra reprendre.
 
 ## 2 🔍 Comprendre
+
+> ✏️ Répondez dans [`CARNET.md`](../CARNET.md), section *Séance 2* : quelques lignes, avec vos mots.
 
 1. Pourquoi une clé primaire composée `(ConseillerId, FileCode)` plutôt qu'un `Id` auto-incrémenté ?
 2. Que devient le niveau « référent » d'un conseiller polyvalent dans une colonne texte ?
@@ -171,7 +201,7 @@ git add -A && git commit -m "feat: compétences en association, reprise des donn
 
 ---
 
-## 📌 Concepts à connaître
+## 🧠 À retenir
 
 1. **Association porteuse** — une association du MCD qui a ses propres données devient une table ; sa clé est le couple des identifiants.
 2. **Migration** — un fichier C# versionné qui fait évoluer le schéma ; appliqué une fois sur chaque base, dans l'ordre.
@@ -179,6 +209,6 @@ git add -A && git commit -m "feat: compétences en association, reprise des donn
 4. **Conversion de valeur** — `HasConversion<string>()` stocke une énumération en texte lisible.
 5. **Durée de vie des services** — singleton (toute l'application), scoped (une requête) : un singleton ouvre un *scope* pour utiliser la base.
 
-## 📓 Journal de fin de séance (portail)
+## ✏️ Journal de fin de séance (portail)
 
 Ce que j'ai fait · ce qui m'a bloqué · ce que j'ai compris aujourd'hui.

@@ -2,13 +2,42 @@
 
 > **Durée** 2 h · **Tests** `dotnet test --filter Groupe=seance-04` · **Fiche de cours** [API REST et accès concurrents](../cours/04-api-concurrence.md)
 
-## 🎯 Objectifs
+## 🧭 Feuille de route
 
-- Traduire la règle **RG2** en code, à un seul endroit
-- Exposer une **API** et répondre avec le **bon code HTTP** (200, 404, 409) et un message lisible
-- Empêcher qu'**un même contact** soit affecté deux fois quand deux superviseurs cliquent ensemble
+> 🎯 **Pourquoi cette séance ?** Affecter un contact en un clic au lieu de crier un prénom dans le plateau — et ne jamais affecter deux fois le même contact quand deux superviseurs cliquent ensemble.
+> **Pour le métier :** exposer une **API** fiable : répondre avec le bon code, expliquer un refus, résister aux accès simultanés. C'est le quotidien d'une application utilisée à plusieurs.
+>
+> **À la fin, vous saurez :** écrire RG2 à un seul endroit, pour l'écran comme pour une future application mobile · répondre 200, 404 ou 409 avec un message lisible (*problem+json*) · protéger une modification contre deux requêtes simultanées
 
-## 🎬 La situation
+### 📖 À lire — on lit, on ne produit rien
+
+| Quand | Quoi | Temps |
+|---|---|---|
+| **avant** la séance | la fiche [API REST et accès concurrents](../cours/04-api-concurrence.md), puis son auto-évaluation | 9 min |
+| au début | [la situation](#-la-situation) : le message de Mme Morel ; RG2 dans le [cahier des charges](../docs/cahier-des-charges.md) | 5 min |
+| avant de modifier | le code existant : `Regles/ServiceAffectation.cs`, `TempsReel/EtatCrc.cs` (le verrou `lock`), `Program.cs` | 10 min |
+
+### ✏️ À faire — chaque ligne laisse une trace que l'on peut vérifier
+
+*Chemins depuis `src/Mfa.Crc.Supervision/` · 🆕 fichier à créer · 🟢 guidé · 🟡 semi-guidé · 🔴 facultatif.*
+
+| Mission | | Vous produisez | Où | Preuve |
+|---|---|---|---|---|
+| 2 · Comprendre | 🟢 | 4 réponses écrites : API, codes HTTP, accès simultanés | `CARNET.md` | interrogation n° 1 |
+| 4.1 | 🟢 | RG2 : le conseiller proposé, et `GET …/proposition` | `Regles/ServiceAffectation.cs`, `Api/ApiContacts.cs` 🆕, `Program.cs` | tests `m1` |
+| 4.2 | 🟢 | affecter : `POST …/affecter` et le bouton du moniteur 1 | `TempsReel/EtatCrc.cs`, `Api/ApiContacts.cs`, `FileAttente.cshtml`, `wwwroot/js/file-attente.js` 🆕 | tests `m2` |
+| 4.3 | 🟡 | les refus : 404 et 409 en *problem+json* | `Regles/ServiceAffectation.cs`, `Api/ApiContacts.cs` | tests `m3` |
+| 4.4 | 🟡 | deux superviseurs, un seul contact | `TempsReel/EtatCrc.cs` | tests `m4` |
+| 4.5 | 🔴 | affecter au conseiller proposé, sans le choisir | `Api/ApiContacts.cs` | bonus `s4_m5` |
+| **Fin** | ✅ | commit + push · cases cochées dans [`PROGRESSION.md`](../PROGRESSION.md) · journal au portail | dépôt, portail | onglet *Actions* vert |
+
+### 🧠 À retenir — interrogé dans l'interrogation n° 1 (début de la séance 5)
+
+**API minimale** · **Codes HTTP** · **Problem Details** · **Exception métier** · **Section critique** — définitions en [fin de séance](#-à-retenir).
+
+---
+
+## 📖 La situation
 
 > **De :** Claire Morel
 > **Objet :** affecter depuis l'écran
@@ -30,6 +59,8 @@ Ouvrez les moniteurs 1 et 2 côte à côte. Repérez un contact *Sinistres* en a
 main qui pourrait le prendre. Combien de temps vous a-t-il fallu ?
 
 ## 2 🔍 Comprendre
+
+> ✏️ Répondez dans [`CARNET.md`](../CARNET.md), section *Séance 4* : quelques lignes, avec vos mots.
 
 1. Une **API** répond à un programme (le JavaScript de la page), pas à un humain : que renvoie-t-elle, si ce n'est du HTML ?
 2. Le contact demandé n'est plus en attente. Quel code HTTP ? Et si le conseiller choisi est en pause ?
@@ -208,7 +239,7 @@ git add -A && git commit -m "feat: affectation d'un contact (RG2), refus en prob
 
 ---
 
-## 📌 Concepts à connaître
+## 🧠 À retenir
 
 1. **API minimale** — `MapGet` / `MapPost` relient une URL et un verbe à une fonction ; la réponse est du JSON.
 2. **Codes HTTP** — 200 réussi, 404 la ressource n'existe pas (ou plus), 409 la demande contredit l'état actuel.
@@ -216,6 +247,6 @@ git add -A && git commit -m "feat: affectation d'un contact (RG2), refus en prob
 4. **Exception métier** — la règle refuse en levant une exception nommée ; l'API la traduit en code HTTP.
 5. **Section critique** — vérifier **et** modifier sous le même verrou : sinon deux requêtes peuvent toutes les deux « voir » le contact libre.
 
-## 📓 Journal de fin de séance (portail)
+## ✏️ Journal de fin de séance (portail)
 
 Ce que j'ai fait · ce qui m'a bloqué · ce que j'ai compris aujourd'hui.

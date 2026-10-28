@@ -2,13 +2,42 @@
 
 > **Durée** 2 h · **Tests** `dotnet test --filter Groupe=seance-06` · **Fiche de cours** [Authentification, autorisation, traçabilité](../cours/06-securite.md)
 
-## 🎯 Objectifs
+## 🧭 Feuille de route
 
-- **Authentifier** un superviseur sans jamais stocker son mot de passe
-- **Protéger** toute l'application d'un coup, puis ouvrir explicitement ce qui doit rester public
-- Afficher le **dossier** d'un sociétaire et **tracer** qui a fait quoi
+> 🎯 **Pourquoi cette séance ?** Un intérimaire a ouvert la supervision et vu les dossiers des sociétaires. Il faut une connexion, le dossier du moniteur 3, et savoir qui a fait quoi en cas de litige.
+> **Pour le métier :** protéger des **données personnelles** : authentifier sans stocker de mot de passe, tout fermer par défaut, tracer les actions (bloc 3 du référentiel, RGPD).
+>
+> **À la fin, vous saurez :** authentifier un superviseur sans jamais stocker son mot de passe · protéger toute l'application d'un coup, puis ouvrir ce qui doit rester public · afficher un dossier et tracer qui a fait quoi
 
-## 🎬 La situation
+### 📖 À lire — on lit, on ne produit rien
+
+| Quand | Quoi | Temps |
+|---|---|---|
+| **avant** la séance | la fiche [Authentification, autorisation, traçabilité](../cours/06-securite.md), puis son auto-évaluation | 10 min |
+| au début | [la situation](#-la-situation) : le message de Mme Morel ; la section *Sécurité* dans le [cahier des charges](../docs/cahier-des-charges.md) | 5 min |
+| avant de modifier | le code existant : `Program.cs` (le pipeline HTTP), `Pages/Societaires.cshtml.cs`, `Domaine/Entites.cs` | 10 min |
+
+### ✏️ À faire — chaque ligne laisse une trace que l'on peut vérifier
+
+*Chemins depuis `src/Mfa.Crc.Supervision/` · 🆕 fichier à créer · 🟢 guidé · 🟡 semi-guidé · 🔴 facultatif.*
+
+| Mission | | Vous produisez | Où | Preuve |
+|---|---|---|---|---|
+| 2 · Comprendre | 🟢 | 5 réponses écrites : hachage, message neutre, 401/302, journal | `CARNET.md` | contrôle d'entrée de la séance 7 |
+| 6.1 | 🟢 | les superviseurs, la page `/connexion`, le cookie | `Domaine/Entites.cs`, `Securite/Comptes.cs` 🆕, `Pages/Connexion.cshtml` 🆕 et `.cs`, `Program.cs` | tests `m1` |
+| 6.2 | 🟢 | tout protéger ; 401 pour l'API ; se déconnecter | `Program.cs`, `_Layout.cshtml`, `Pages/Erreur.cshtml` | tests `m2` + **toutes** les séances d'avant |
+| 6.3 | 🟡 | le moniteur 3 : le dossier du conseiller sélectionné | `Pages/Moniteurs/Dossier.cshtml` 🆕 et `.cs`, `Api/ApiDossiers.cs` 🆕 | tests `m3` |
+| 6.4 | 🟡 | les notes et le journal des actions | `Domaine/Entites.cs`, `Donnees/CrcContext.cs`, `Api/ApiDossiers.cs`, `Api/ApiContacts.cs` | tests `m4` |
+| 6.5 | 🔴 | limiter les tentatives de connexion | `Pages/Connexion.cshtml.cs` | bonus `s6_m5` |
+| **Fin** | ✅ | commit + push · cases cochées dans [`PROGRESSION.md`](../PROGRESSION.md) · journal au portail | dépôt, portail | onglet *Actions* vert |
+
+### 🧠 À retenir — interrogé au contrôle d'entrée de la séance 7
+
+**Hachage** · **Message neutre** · **Authentification / autorisation** · **401 ou 302** · **Traçabilité** — définitions en [fin de séance](#-à-retenir).
+
+---
+
+## 📖 La situation
 
 > **De :** Claire Morel
 > **Objet :** n'importe qui peut ouvrir la supervision !
@@ -28,6 +57,8 @@ Ouvrez une fenêtre de navigation privée sur le port 5000 : rien ne vous est de
 `/api/selection` et `/societaires?nom=roche`.
 
 ## 2 🔍 Comprendre
+
+> ✏️ Répondez dans [`CARNET.md`](../CARNET.md), section *Séance 6* : quelques lignes, avec vos mots.
 
 1. Pourquoi ne jamais stocker un mot de passe, même chiffré ? Que stocke-t-on à la place ?
 2. Un identifiant inconnu et un mauvais mot de passe : faut-il le même message ? Pourquoi ?
@@ -150,7 +181,7 @@ git add -A && git commit -m "feat: connexion des superviseurs, moniteur 3, notes
 
 ---
 
-## 📌 Concepts à connaître
+## 🧠 À retenir
 
 1. **Hachage** — une empreinte à sens unique (`PasswordHasher`, avec sel et itérations) : on vérifie un mot de passe sans pouvoir le retrouver.
 2. **Message neutre** — le même échec que l'identifiant existe ou non : on ne révèle pas quels comptes existent.
@@ -158,6 +189,6 @@ git add -A && git commit -m "feat: connexion des superviseurs, moniteur 3, notes
 4. **401 ou 302** — une page redirige vers le formulaire ; une API répond 401 : un programme ne remplit pas de formulaire.
 5. **Traçabilité** — le journal dit qui a fait quoi et quand ; on n'y écrit jamais de mot de passe ni de donnée inutile.
 
-## 📓 Journal de fin de séance (portail)
+## ✏️ Journal de fin de séance (portail)
 
 Ce que j'ai fait · ce qui m'a bloqué · ce que j'ai compris aujourd'hui.

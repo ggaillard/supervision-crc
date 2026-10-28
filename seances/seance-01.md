@@ -2,13 +2,41 @@
 
 > **Durée** 2 h · **Tests** `dotnet test --filter Groupe=seance-01` · **Fiche de cours** [Événements, état et pages Razor](../cours/01-evenements-razor.md)
 
-## 🎯 Objectifs
+## 🧭 Feuille de route
 
-- Suivre le trajet d'un fait : **simulateur → événement → `EtatCrc` → page Razor → écran**
-- Écrire une **règle de gestion** à un seul endroit, testable sans l'interface
-- Présenter des données pour qu'elles se lisent d'un coup d'œil
+> 🎯 **Pourquoi cette séance ?** Une escalade est restée six minutes noyée dans la file : le moniteur 1 doit dire d'un coup d'œil qui servir d'abord.
+> **Pour le métier :** reprendre un code existant en commençant par le **comprendre**, puis isoler une règle de gestion pour pouvoir la tester.
+>
+> **À la fin, vous saurez :** suivre le trajet d'un événement, du simulateur jusqu'à l'écran · écrire une règle de gestion à un seul endroit, testable · présenter des données lisibles d'un coup d'œil
 
-## 🎬 La situation
+### 📖 À lire — on lit, on ne produit rien
+
+| Quand | Quoi | Temps |
+|---|---|---|
+| **avant** la séance | la fiche [Événements, état et pages Razor](../cours/01-evenements-razor.md), puis son auto-évaluation | 8 min |
+| au début | [la situation](#-la-situation) : le message de Mme Morel ; RG1 dans le [cahier des charges](../docs/cahier-des-charges.md) | 5 min |
+| avant de modifier | le code existant : `TempsReel/EtatCrc.cs`, `TempsReel/ServiceSimulation.cs`, `Pages/Moniteurs/FileAttente.cshtml`, `Pages/Moniteurs/FileAttente.cshtml.cs` | 10 min |
+
+### ✏️ À faire — chaque ligne laisse une trace que l'on peut vérifier
+
+*Chemins depuis `src/Mfa.Crc.Supervision/` · 🆕 fichier à créer · 🟢 guidé · 🟡 semi-guidé · 🔴 facultatif.*
+
+| Mission | | Vous produisez | Où | Preuve |
+|---|---|---|---|---|
+| 1.1 | 🟢 | 6 réponses écrites : le trajet d'un événement | `CARNET.md` | contrôle d'entrée de la séance 2 |
+| 1.2 | 🟢 | RG1 : la file triée par priorité puis ancienneté | `Regles/ReglesFile.cs`, `FileAttente.cshtml.cs` | tests `m2` |
+| 1.3 | 🟡 | l'attente `mm:ss`, l'alerte au-delà de 3 min, les badges | `FileAttente.cshtml`, `.cshtml.cs` | tests `m3` |
+| 1.4 | 🟡 | une tuile par file avec son nombre de contacts | `FileAttente.cshtml`, `.cshtml.cs` | tests `m4` |
+| 1.5 | 🔴 | le filtre par canal `?canal=Chat` | `FileAttente.cshtml.cs` | bonus `s1_m5` |
+| **Fin** | ✅ | commit + push · cases cochées dans [`PROGRESSION.md`](../PROGRESSION.md) · journal au portail | dépôt, portail | onglet *Actions* vert |
+
+### 🧠 À retenir — interrogé au contrôle d'entrée de la séance 2
+
+**Événement** · **Singleton** · **Règle de gestion isolée** · **Tri à plusieurs clés** · **Page Razor** — définitions en [fin de séance](#-à-retenir).
+
+---
+
+## 📖 La situation
 
 > **De :** Claire Morel, responsable du centre de relation client
 > **Objet :** le moniteur 1
@@ -38,7 +66,9 @@ Ouvrez aussi **Sociétaires** et cherchez `roche`.
 
 ## 2 🔍 Comprendre — Mission 1.1 🟢 *Suivre un événement*
 
-Répondez **par écrit** dans votre journal (ces questions reviennent au contrôle d'entrée de la séance 2) :
+> ✏️ Répondez dans [`CARNET.md`](../CARNET.md), section *Séance 1* : quelques lignes, avec vos mots.
+
+Ces questions reviennent au contrôle d'entrée de la séance 2.
 
 1. Dans `Program.cs`, `EtatCrc` est enregistré avec `AddSingleton`. Que veut dire *singleton* ici, et
    pourquoi faut-il **une seule** instance pour toute l'application ?
@@ -77,7 +107,7 @@ flowchart LR
                .ToList();
    ```
    > Regardez l'énumération `Priorite` dans `src/Mfa.Crc.Simulateur/Evenements.cs` : pourquoi le
-   > `(int)` donne-t-il le bon ordre ?
+   > `(int)` donne-t-il le bon ordre ? ✏️ *Réponse dans le carnet.*
 2. Dans `FileAttente.cshtml.cs`, méthode `OnGet()`, triez avant d'afficher :
    ```csharp
    Contacts = ReglesFile.Trier(etat.FileAttente);
@@ -137,7 +167,7 @@ Cochez la séance 1 dans `PROGRESSION.md`.
 
 ---
 
-## 📌 Concepts à connaître
+## 🧠 À retenir
 
 *Ce sont les cinq points du contrôle d'entrée de la séance 2.*
 
@@ -147,6 +177,6 @@ Cochez la séance 1 dans `PROGRESSION.md`.
 4. **Tri à plusieurs clés** — `OrderBy` puis `ThenBy` : la seconde clé ne départage qu'à égalité sur la première.
 5. **Page Razor** — `@page` fixe l'URL ; le modèle (`OnGet`) prépare les données ; la vue `.cshtml` ne fait qu'afficher.
 
-## 📓 Journal de fin de séance (portail)
+## ✏️ Journal de fin de séance (portail)
 
 Ce que j'ai fait · ce qui m'a bloqué · ce que j'ai compris aujourd'hui.

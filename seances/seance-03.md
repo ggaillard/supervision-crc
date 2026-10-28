@@ -2,13 +2,41 @@
 
 > **Durée** 2 h · **Tests** `dotnet test --filter Groupe=seance-03` · **Fiche de cours** [Configuration et règles de gestion](../cours/03-configuration-regles.md)
 
-## 🎯 Objectifs
+## 🧭 Feuille de route
 
-- Construire une page Razor à partir de l'état en mémoire
-- Écrire la règle **RG4** (durées) comme une fonction pure, puis l'afficher
-- Sortir les **seuils** du code : la configuration (`appsettings.json`) et le modèle *Options*
+> 🎯 **Pourquoi cette séance ?** Mme Morel doit voir ses 18 conseillers et repérer celui qui est en difficulté ; elle veut changer le seuil d'alerte sans rappeler le développeur.
+> **Pour le métier :** séparer la **règle**, la **configuration** et l'**affichage** : ce qui change souvent ne doit pas demander de recompiler.
+>
+> **À la fin, vous saurez :** construire une page Razor à partir de l'état en mémoire · écrire RG4 comme une fonction pure, testable sans l'application · sortir un seuil du code : `appsettings.json` et les *Options*
 
-## 🎬 La situation
+### 📖 À lire — on lit, on ne produit rien
+
+| Quand | Quoi | Temps |
+|---|---|---|
+| **avant** la séance | la fiche [Configuration et règles de gestion](../cours/03-configuration-regles.md), puis son auto-évaluation | 7 min |
+| au début | [la situation](#-la-situation) : le message de Mme Morel ; RG4 dans le [cahier des charges](../docs/cahier-des-charges.md) | 5 min |
+| avant de modifier | le code existant : `TempsReel/EtatCrc.cs` (le type `EtatConseiller`), `Regles/ReglesDuree.cs`, `appsettings.json` | 10 min |
+
+### ✏️ À faire — chaque ligne laisse une trace que l'on peut vérifier
+
+*Chemins depuis `src/Mfa.Crc.Supervision/` · 🆕 fichier à créer · 🟢 guidé · 🟡 semi-guidé · 🔴 facultatif.*
+
+| Mission | | Vous produisez | Où | Preuve |
+|---|---|---|---|---|
+| 2 · Comprendre | 🟢 | 4 réponses écrites : durée, post-appel, configuration | `CARNET.md` | contrôle d'entrée de la séance 4 |
+| 3.1 | 🟢 | le moniteur 2 : une carte par conseiller | `Pages/Moniteurs/Plateau.cshtml` 🆕 et `.cs`, `Pages/Index.cshtml`, `_Layout.cshtml`, `site.css` | tests `m1` |
+| 3.2 | 🟢 | RG4 avec des seuils configurables | `Regles/ReglesDuree.cs`, `appsettings.json`, `Program.cs`, `Plateau.cshtml.cs` | tests `m2` |
+| 3.3 | 🟡 | compter et filtrer par statut `?statut=Pause` | `Plateau.cshtml`, `.cshtml.cs` | tests `m3` |
+| 3.4 | 🔴 | trier par durée `?tri=duree` | `Plateau.cshtml.cs` | bonus `s3_m5` |
+| **Fin** | ✅ | commit + push · cases cochées dans [`PROGRESSION.md`](../PROGRESSION.md) · journal au portail | dépôt, portail | onglet *Actions* vert |
+
+### 🧠 À retenir — interrogé au contrôle d'entrée de la séance 4
+
+**Fonction pure** · **Configuration** · **Options** · **Liaison de la query string** · **`TimeSpan`** — définitions en [fin de séance](#-à-retenir).
+
+---
+
+## 📖 La situation
 
 > **De :** Claire Morel
 > **Objet :** le moniteur 2
@@ -29,6 +57,8 @@ Lancez l'application, attendez 09 h 30 de l'heure simulée. Il n'existe pas enco
 le lien de l'accueil est grisé. Regardez `EtatCrc.Plateau` : que contient un `EtatConseiller` ?
 
 ## 2 🔍 Comprendre
+
+> ✏️ Répondez dans [`CARNET.md`](../CARNET.md), section *Séance 3* : quelques lignes, avec vos mots.
 
 1. `Depuis` contient l'heure du dernier changement de statut. Comment obtenir la **durée** du statut actuel ?
 2. Pourquoi un conseiller en **post-appel** (il rédige son compte rendu) ne doit-il pas déclencher l'alerte « appel long » ?
@@ -124,7 +154,7 @@ git add -A && git commit -m "feat: moniteur 2, alertes de durée (RG4) configura
 
 ---
 
-## 📌 Concepts à connaître
+## 🧠 À retenir
 
 1. **Fonction pure** — mêmes entrées, même résultat, aucun effet de bord : `ReglesDuree.Alertes(plateau, maintenant, seuils)` se teste sans l'application.
 2. **Configuration** — une valeur qui change selon le contexte (seuil, objectif) vit dans `appsettings.json`, pas dans le code.
@@ -132,6 +162,6 @@ git add -A && git commit -m "feat: moniteur 2, alertes de durée (RG4) configura
 4. **Liaison de la query string** — `[BindProperty(SupportsGet = true)]` remplit une propriété avec `?statut=Pause`.
 5. **`TimeSpan`** — une durée ; la différence de deux heures en est une, et se formate avec `ToString(@"mm\:ss")`.
 
-## 📓 Journal de fin de séance (portail)
+## ✏️ Journal de fin de séance (portail)
 
 Ce que j'ai fait · ce qui m'a bloqué · ce que j'ai compris aujourd'hui.

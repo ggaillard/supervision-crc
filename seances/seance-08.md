@@ -4,14 +4,42 @@
 
 > ✍️ **0 – 30 min : interrogation écrite n° 2** (séances 5 à 7), sur papier, sans document.
 
-## 🎯 Objectifs
+## 🧭 Feuille de route
 
-- **Auditer** une application avec une grille, trouver une faille, la prouver, la corriger
-- Écrire **vos** tests : un test qui ne peut pas échouer ne protège rien
-- Préparer l'**exploitation** : configuration de production, page de santé, recette avec la demandeuse
-- Présenter le travail dans votre **dossier E5**
+> 🎯 **Pourquoi cette séance ?** Lundi, la supervision remplace le tableur. Avant : un audit de sécurité, une adresse de surveillance pour l'exploitation, et une recette avec Mme Morel.
+> **Pour le métier :** **livrer** : prouver que l'application est sûre, testée, exploitable — puis le présenter dans votre dossier E5.
+>
+> **À la fin, vous saurez :** auditer une application avec une grille ; trouver, prouver, corriger une faille · écrire des tests qui protègent vraiment (ils échouent si l'on casse la règle) · préparer l'exploitation et conduire une recette
 
-## 🎬 La situation
+### 📖 À lire — on lit, on ne produit rien
+
+| Quand | Quoi | Temps |
+|---|---|---|
+| **avant** la séance | la fiche [Qualité et exploitation](../cours/08-qualite-exploitation.md), puis son auto-évaluation | 9 min |
+| au début | [la situation](#-la-situation) : le message de Mme Morel ; le [cahier des charges](../docs/cahier-des-charges.md) en entier : la recette le vérifie point par point | 5 min |
+| avant de modifier | le code existant : `Program.cs`, `Pages/Societaires.cshtml.cs`, `Pages/Connexion.cshtml.cs` | 10 min |
+
+### ✏️ À faire — chaque ligne laisse une trace que l'on peut vérifier
+
+*Chemins depuis `src/Mfa.Crc.Supervision/` · 🆕 fichier à créer · 🟢 guidé · 🟡 semi-guidé · 🔴 facultatif.*
+
+| Mission | | Vous produisez | Où | Preuve |
+|---|---|---|---|---|
+| 2 · Comprendre | 🟡 | la grille d'audit remplie (7 lignes) | `CARNET.md` | la recette et l'oral E5 |
+| 8.1 | 🟡 | la faille : trouvée, prouvée, corrigée, expliquée | `Pages/Societaires.cshtml.cs`, `CARNET.md` | tests `m1` |
+| 8.2 | 🟢 | au moins deux tests à vous, vérifiés en cassant le code | `tests/Mfa.Crc.Tests/Etudiant/` (à la racine du dépôt) : vos fichiers 🆕 | tests `m2` + groupe `etudiant` |
+| 8.3 | 🟢 | le style du code sans écart | tout le projet (`dotnet format`) | ligne 🎨 de l'onglet *Actions* |
+| 8.4 | 🟡 | production, page `/sante`, recette avec Mme Morel | `Program.cs`, `appsettings.json` | tests `m4` + recette |
+| 8.5 | 🟢 | la fiche de réalisation E5 | `e5/FICHE-REALISATION.md` | votre dossier E5 |
+| **Fin** | ✅ | commit + push · cases cochées dans [`PROGRESSION.md`](../PROGRESSION.md) · journal au portail | dépôt, portail | onglet *Actions* vert |
+
+### 🧠 À retenir — interrogé à l'oral E5 : vous les expliquerez à votre jury
+
+**Injection SQL** · **Test qui protège** · **Environnement** · **Sonde de santé** · **Recette** — définitions en [fin de séance](#-à-retenir).
+
+---
+
+## 📖 La situation
 
 > **De :** Claire Morel
 > **Objet :** lundi, on bascule
@@ -30,6 +58,8 @@ dotnet test     # où en êtes-vous ? une ligne par séance dans l'onglet Action
 ```
 
 ## 2 🔍 Comprendre — la grille d'audit
+
+> ✏️ Répondez dans [`CARNET.md`](../CARNET.md), section *Séance 8* : quelques lignes, avec vos mots.
 
 Pour chaque ligne : **où regarder** dans le code, **ce que vous avez trouvé**, **verdict** (✅ / ⚠️ / ❌).
 
@@ -56,7 +86,7 @@ vous dit où chercher ; le test ne vous dit pas où elle est.
 3. **Corrigez**-la : la saisie ne doit **jamais** être collée dans le texte SQL. Deux corrections justes :
    LINQ (`.Where(s => EF.Functions.Like(s.Nom, motif))`) ou une requête paramétrée (`FromSql($"…{motif}…")`,
    interpolée : EF Core en fait un paramètre).
-4. Écrivez dans votre journal ce que la faille permettait, et pourquoi votre correction la ferme.
+4. Écrivez dans [`CARNET.md`](../CARNET.md) ce que la faille permettait, et pourquoi votre correction la ferme.
 
 ✅ `dotnet test --filter "Groupe=seance-08&FullyQualifiedName~m1"`
 
@@ -142,7 +172,7 @@ Toutes les lignes de l'onglet **Actions** au vert. Écrivez un journal-bilan des
 
 ---
 
-## 📌 Concepts à connaître
+## 🧠 À retenir
 
 1. **Injection SQL** — une saisie collée dans le texte SQL devient du code ; une requête paramétrée la traite comme une donnée.
 2. **Test qui protège** — un test vaut s'il échoue quand on casse la règle : on le vérifie en la cassant.
@@ -150,6 +180,6 @@ Toutes les lignes de l'onglet **Actions** au vert. Écrivez un journal-bilan des
 4. **Sonde de santé** — une adresse publique, légère, qui dit si l'application et sa base répondent.
 5. **Recette** — la demandeuse vérifie, sur un scénario connu, que le résultat est celui qu'elle attend.
 
-## 📓 Journal de fin de séance (portail)
+## ✏️ Journal de fin de séance (portail)
 
 Le journal-bilan : ce que j'ai livré · ce qui m'a le plus appris · ce que je referais autrement.
