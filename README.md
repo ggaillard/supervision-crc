@@ -18,6 +18,10 @@ Un prestataire a commencé une application de supervision, puis il est parti. El
 ne fait presque rien : un seul écran, une file d'attente dans le désordre, une recherche de sociétaires…
 La responsable du centre, **Claire Morel**, vous confie la suite.
 
+![Le poste du superviseur, une fois l'application terminée](docs/maquettes/poste-4-moniteurs.png)
+
+*L'application terminée, à 11 h 42 de la matinée simulée — détail des écrans dans [docs/maquettes](docs/maquettes/README.md).*
+
 Le poste du superviseur a **quatre moniteurs**. Il doit voir *en même temps* qui attend, qui est
 disponible, le dossier difficile du moment et les indicateurs de la journée : des onglets en cacheraient
 trois sur quatre.
