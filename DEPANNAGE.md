@@ -10,13 +10,36 @@
 ## Au démarrage
 
 ### `Failed to bind to address http://0.0.0.0:5000: address already in use`
-L'application tourne déjà dans un autre terminal. Arrêtez-la (Ctrl+C dans ce terminal) ou :
+L'application tourne déjà dans un autre terminal (souvent lancée avec `dotnet run`). Lancez plutôt avec
+`./lancer.sh` ou **Ctrl+Maj+B** : l'ancienne instance est arrêtée d'abord. Ou arrêtez-la seule :
 ```bash
-pkill -f Mfa.Crc.Supervision
+./lancer.sh arreter
 ```
 
-### Le port 5000 n'apparaît pas dans l'onglet PORTS
-Attendez la ligne `Now listening on: http://0.0.0.0:5000` dans le terminal, puis **PORTS → Ajouter un port → 5000**.
+### `bash: ./lancer.sh: Permission denied`
+```bash
+chmod +x lancer.sh
+```
+
+### `❌ La compilation échoue`
+L'application ne démarre pas tant que le code ne compile pas. Lisez la **première** erreur affichée
+(fichier, ligne, code `CS…`) et cherchez ce code plus bas dans cette page.
+
+### Le navigateur ne s'ouvre pas tout seul
+Ctrl+clic sur l'adresse `https://…-5000.app.github.dev` affichée par `./lancer.sh`. Ou onglet **PORTS** →
+ligne 5000 → 🌐. Si la ligne 5000 manque : attendez `Now listening on: http://0.0.0.0:5000`, puis
+**PORTS → Ajouter un port → 5000**.
+
+### La page affiche `localhost a refusé la connexion` · l'adresse est devenue `http://localhost:5000/…`
+Le navigateur a été renvoyé vers `localhost`, qui n'existe pas sur votre ordinateur : l'application tourne
+dans le Codespace. Deux causes possibles :
+- vous avez ouvert vous-même `http://localhost:5000` : utilisez l'adresse `https://…app.github.dev` ;
+- les deux lignes `Hebergement.…` ont disparu de `Program.cs` : remettez-les
+  (`Hebergement.Preparer(builder);` juste après `CreateBuilder`, `Hebergement.Utiliser(app);` juste après `Build()`).
+
+### Les moniteurs ne se mettent pas à jour, F12 montre une erreur sur `/hubs/crc`
+Le Codespace a été mis en veille : rechargez la page (F5 du navigateur). Si l'application s'est arrêtée,
+relancez-la.
 
 ### `dotnet ef : command not found` · `Could not execute because the specified command or file was not found`
 ```bash
@@ -29,7 +52,7 @@ La base a été créée avant votre migration, ou la migration n'a pas été gé
 ```bash
 dotnet ef migrations list --project src/Mfa.Crc.Supervision
 ```
-Base de développement seulement : supprimer `src/Mfa.Crc.Supervision/crc.db` et relancer recrée tout.
+Base de développement seulement : `./lancer.sh neuf` supprime `crc.db` et relance ; les migrations recréent tout.
 
 ---
 

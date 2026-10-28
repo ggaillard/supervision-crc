@@ -51,14 +51,14 @@ trois sur quatre.
 1. En haut de ce dépôt : **Use this template → Create a new repository**, nommé `supervision-crc-NOM-Prenom` (privé).
 2. Dans **votre** dépôt : **Code → Codespaces → Create codespace on main**.
 3. Attendez le message `✅ Supervision CRC est prête` dans le terminal (2 à 3 minutes la première fois).
-4. Lancez l'application :
+4. Lancez l'application : **Ctrl+Maj+B**, ou dans le terminal :
 
    ```bash
-   dotnet run --project src/Mfa.Crc.Supervision
+   ./lancer.sh
    ```
 
-   Onglet **PORTS** → port **5000** → 🌐 : l'application s'ouvre ; l'horloge en haut à droite avance,
-   la matinée simulée se déroule.
+   Un onglet du navigateur s'ouvre tout seul sur l'application (sinon : Ctrl+clic sur l'adresse affichée
+   dans le terminal). L'horloge en haut à droite avance, la matinée simulée se déroule.
 5. Dans un **second** terminal :
 
    ```bash
@@ -92,6 +92,8 @@ supervision-crc/
 ├── PARCOURS.md              la méthode et les 8 séances, dans l'ordre
 ├── PROGRESSION.md           vos cases à cocher (à committer)
 ├── DEPANNAGE.md             erreurs fréquentes, classées par message
+├── lancer.sh                ▶ lance l'application (./lancer.sh, recette, neuf, arreter)
+├── .vscode/                 Ctrl+Maj+B (lancer), F5 (déboguer), tâches de test
 ├── seances/                 un guide par séance (2 h)
 ├── cours/                   fiches de cours + auto-évaluations
 ├── docs/                    cahier des charges (règles RG1 à RG7), maquettes
@@ -102,6 +104,7 @@ supervision-crc/
 │   ├── Mfa.Crc.Simulateur/  rejoue la matinée et déclenche des événements (remplace la téléphonie)
 │   └── Mfa.Crc.Supervision/ ⬅ l'application (ASP.NET Core .NET 10, Razor Pages, EF Core + SQLite)
 │       ├── Domaine/  Donnees/  Regles/  TempsReel/  Pages/  wwwroot/
+│       └── Hebergement.cs   fourni : fait fonctionner l'application dans le Codespace
 └── tests/Mfa.Crc.Tests/     Socle/ · Seance01/ … Seance08/ · Bonus/ · Etudiant/ (les vôtres)
 ```
 
@@ -112,10 +115,22 @@ supervision-crc/
 | .NET 10 SDK, `dotnet-ef` | compiler, lancer, tester, créer les migrations |
 | SQLite (`crc.db`) | la base de l'application, créée au premier lancement |
 | Simulateur | rejoue la matinée du 28 octobre 2026 (08:00-12:00), 313 contacts, en accéléré |
-| Port **5000** | l'application |
+| Port **5000** | l'application, ouverte dans le navigateur à l'adresse `https://…-5000.app.github.dev` du Codespace |
 
-Pas de base à installer : supprimer `src/Mfa.Crc.Supervision/crc.db` repart d'une base neuve au
-lancement suivant.
+### ▶️ Lancer l'application
+
+| Pour… | Terminal | VS Code |
+|---|---|---|
+| lancer (la matinée se déroule, ×20) | `./lancer.sh` | **Ctrl+Maj+B** |
+| lancer avec le débogueur (points d'arrêt) | — | **F5** |
+| figer la matinée à 11 h 42 (recette) | `./lancer.sh recette` · `./lancer.sh recette 09:30` | F5, configuration *mode recette* |
+| repartir d'une base neuve | `./lancer.sh neuf` | tâche *♻ Base neuve, puis lancer* |
+| arrêter | **Ctrl+C**, ou `./lancer.sh arreter` | ⏹ dans la barre du débogueur |
+| tester une séance | `dotnet test --filter Groupe=seance-01` | tâche *🧪 Tests d'une séance* |
+
+Les tâches sont dans **Terminal → Exécuter la tâche…**. Lancer arrête d'abord l'application si elle
+tourne déjà : pas de conflit de port. La base `src/Mfa.Crc.Supervision/crc.db` est créée au premier
+lancement, toujours à cet endroit ; pas de base à installer.
 
 ---
 

@@ -3,6 +3,7 @@ using Mfa.Crc.Supervision.TempsReel;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+Hebergement.Preparer(builder);       // fourni : Codespace et emplacement de la base
 
 // ---------- Services ----------
 
@@ -17,6 +18,7 @@ builder.Services.AddSingleton<EtatCrc>();
 builder.Services.AddHostedService<ServiceSimulation>();
 
 var app = builder.Build();
+Hebergement.Utiliser(app);           // fourni : à garder en premier
 
 // ---------- Base de données et plateau ----------
 

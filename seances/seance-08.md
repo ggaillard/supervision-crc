@@ -109,8 +109,11 @@ ASPNETCORE_ENVIRONMENT=Production ASPNETCORE_URLS=http://0.0.0.0:5000 dotnet pub
 fige les moniteurs :
 
 ```bash
-Simulation__ArreterA=11:42:00 dotnet run --project src/Mfa.Crc.Supervision     # puis 12:00:00
+./lancer.sh recette            # figée à 11:42
+./lancer.sh recette 12:00      # puis à midi
 ```
+
+(Le script ne fait que fixer le réglage `Simulation__ArreterA` avant `dotnet run` : ouvrez-le pour le voir.)
 
 Vérifiez avec elle, moniteur par moniteur :
 

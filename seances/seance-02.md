@@ -46,7 +46,7 @@ erDiagram
 
 ## 1 ▶️ Lancer
 
-Lancez l'application une fois (elle crée `src/Mfa.Crc.Supervision/crc.db` si besoin). Ouvrez la base :
+Lancez l'application une fois (`./lancer.sh` : elle crée `src/Mfa.Crc.Supervision/crc.db` si besoin), puis arrêtez-la (Ctrl+C). Ouvrez la base :
 
 ```bash
 sqlite3 src/Mfa.Crc.Supervision/crc.db "SELECT Id, Prenom, Competences FROM Conseillers LIMIT 5;"

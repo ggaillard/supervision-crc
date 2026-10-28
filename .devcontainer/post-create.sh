@@ -14,7 +14,8 @@ echo "▶ Restauration et compilation…"
 dotnet restore SupervisionCrc.sln
 dotnet build SupervisionCrc.sln --no-restore -v q
 
+chmod +x lancer.sh
+
 echo ""
 echo "✅ Supervision CRC est prête."
-echo "   Lancer :      dotnet run --project src/Mfa.Crc.Supervision   (port 5000)"
-echo "   Vérifier :    dotnet test --filter Groupe=socle"
+bash .devcontainer/bienvenue.sh

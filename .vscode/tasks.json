@@ -1,0 +1,73 @@
+{
+  // Terminal → Exécuter la tâche…  (ou Ctrl+Maj+P → « Tasks: Run Task »)
+  // Ctrl+Maj+B lance directement l'application.
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "▶ Lancer la supervision",
+      "detail": "La matinée simulée se déroule (./lancer.sh)",
+      "type": "shell",
+      "command": "./lancer.sh",
+      "group": { "kind": "build", "isDefault": true },
+      "presentation": { "panel": "dedicated", "reveal": "always", "focus": true, "clear": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "▶ Lancer en mode recette (11 h 42)",
+      "detail": "Horloge figée : les valeurs de la recette, séance 8",
+      "type": "shell",
+      "command": "./lancer.sh recette",
+      "presentation": { "panel": "dedicated", "reveal": "always", "focus": true, "clear": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "♻ Base neuve, puis lancer",
+      "detail": "Supprime crc.db : les migrations la recréent au démarrage",
+      "type": "shell",
+      "command": "./lancer.sh neuf",
+      "presentation": { "panel": "dedicated", "reveal": "always", "focus": true, "clear": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "⏹ Arrêter la supervision",
+      "type": "shell",
+      "command": "./lancer.sh arreter",
+      "presentation": { "reveal": "silent" },
+      "problemMatcher": []
+    },
+    {
+      "label": "🔨 Compiler (pour F5)",
+      "hide": true,
+      "dependsOn": ["⏹ Arrêter la supervision"],
+      "type": "shell",
+      "command": "dotnet build src/Mfa.Crc.Supervision -v q -nologo",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "🧪 Tests d'une séance",
+      "detail": "dotnet test --filter Groupe=…",
+      "type": "shell",
+      "command": "dotnet test --filter Groupe=${input:groupe}",
+      "group": "test",
+      "presentation": { "panel": "shared", "reveal": "always", "clear": true },
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "🧪 Tous les tests",
+      "type": "shell",
+      "command": "dotnet test",
+      "group": "test",
+      "presentation": { "panel": "shared", "reveal": "always", "clear": true },
+      "problemMatcher": "$msCompile"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "groupe",
+      "type": "pickString",
+      "description": "Quel groupe de tests ?",
+      "options": ["socle", "seance-01", "seance-02", "seance-03", "seance-04", "seance-05", "seance-06", "seance-07", "seance-08", "bonus", "etudiant"],
+      "default": "socle"
+    }
+  ]
+}

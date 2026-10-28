@@ -28,11 +28,11 @@ C'est la règle **RG1** du [cahier des charges](../docs/cahier-des-charges.md).
 
 ## 1 ▶️ Lancer
 
-```bash
-dotnet run --project src/Mfa.Crc.Supervision
-```
+**Ctrl+Maj+B** (ou `./lancer.sh` dans le terminal) : l'application compile, démarre, et le navigateur
+s'ouvre dessus. Après chaque modification du code, relancez de la même façon : l'ancienne instance est
+arrêtée d'abord.
 
-Onglet **PORTS** → 5000 → 🌐. Regardez l'horloge avancer, ouvrez **1 File d'attente** : la page se
+Regardez l'horloge avancer, ouvrez **1 File d'attente** : la page se
 recharge toutes les 5 secondes. Cherchez une ligne `Escalade` (vers 11 h 29 de l'heure simulée).
 Ouvrez aussi **Sociétaires** et cherchez `roche`.
 

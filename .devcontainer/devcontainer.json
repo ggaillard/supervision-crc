@@ -6,9 +6,13 @@
   // Le script peut être relancé sans risque (idempotent).
   "postCreateCommand": "bash .devcontainer/post-create.sh",
 
+  // Rappel des commandes à chaque ouverture du Codespace.
+  "postAttachCommand": "bash .devcontainer/bienvenue.sh",
+
+  // Le navigateur s'ouvre tout seul sur l'application dès qu'elle démarre.
   "forwardPorts": [5000],
   "portsAttributes": {
-    "5000": { "label": "🖥️ Supervision CRC", "onAutoForward": "notify" }
+    "5000": { "label": "🖥️ Supervision CRC", "onAutoForward": "openBrowser" }
   },
 
   "customizations": {

@@ -1,0 +1,44 @@
+{
+  // F5 : lance l'application avec le débogueur. Cliquez dans la marge d'une ligne (point rouge)
+  // pour que l'exécution s'y arrête : vous voyez alors la valeur de chaque variable.
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "🐞 Supervision CRC (points d'arrêt)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "🔨 Compiler (pour F5)",
+      "program": "${workspaceFolder}/src/Mfa.Crc.Supervision/bin/Debug/net10.0/Mfa.Crc.Supervision.dll",
+      "cwd": "${workspaceFolder}/src/Mfa.Crc.Supervision",
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://0.0.0.0:5000"
+      },
+      "console": "integratedTerminal",
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "Now listening on:\\s+https?://\\S+:([0-9]+)",
+        "uriFormat": "http://localhost:%s"
+      }
+    },
+    {
+      "name": "🐞 Supervision CRC — mode recette (11 h 42)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "🔨 Compiler (pour F5)",
+      "program": "${workspaceFolder}/src/Mfa.Crc.Supervision/bin/Debug/net10.0/Mfa.Crc.Supervision.dll",
+      "cwd": "${workspaceFolder}/src/Mfa.Crc.Supervision",
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://0.0.0.0:5000",
+        "Simulation__ArreterA": "11:42:00"
+      },
+      "console": "integratedTerminal",
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "Now listening on:\\s+https?://\\S+:([0-9]+)",
+        "uriFormat": "http://localhost:%s"
+      }
+    }
+  ]
+}
