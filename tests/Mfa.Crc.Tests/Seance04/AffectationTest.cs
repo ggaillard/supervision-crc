@@ -154,15 +154,23 @@ public class AffectationTest : TestCrc
     {
         await AssurerConnexion();
         var conseillers = new[] { "C01", "C02", "C03", "C08", "C12", "C14" };
-        Rejouer([.. conseillers.Select(c => Statut(c, StatutConseiller.Disponible, H(8, 30))),
-                 Arrive("K0001", "Sinistres", Priorite.Normale, H(9, 0))]);
 
-        var reponses = await Task.WhenAll(conseillers.Select(c => Post("/api/contacts/K0001/affecter", new { conseillerId = c })));
+        // Cinq tours : à chaque tour, six superviseurs cliquent en même temps sur le même contact
+        for (var tour = 1; tour <= 5; tour++)
+        {
+            var contact = $"K000{tour}";
+            Rejouer([.. conseillers.Select(c => Statut(c, StatutConseiller.Disponible, H(8, 30))),
+                     Arrive(contact, "Sinistres", Priorite.Normale, H(9, tour))]);
 
-        Assert.Single(reponses, r => r.StatusCode == HttpStatusCode.OK);
-        Assert.All(reponses.Where(r => r.StatusCode != HttpStatusCode.OK), r => Assert.True(
-            r.StatusCode is HttpStatusCode.NotFound or HttpStatusCode.Conflict, $"{(int)r.StatusCode}"));
-        Assert.Single(Etat.Plateau, c => c.Statut == StatutConseiller.EnAppel);
+            // Task.Run : chaque requête part sur son propre fil, vraiment en même temps
+            var reponses = await Task.WhenAll(conseillers.Select(c =>
+                Task.Run(() => Post($"/api/contacts/{contact}/affecter", new { conseillerId = c }))));
+
+            Assert.Single(reponses, r => r.StatusCode == HttpStatusCode.OK);
+            Assert.All(reponses.Where(r => r.StatusCode != HttpStatusCode.OK), r => Assert.True(
+                r.StatusCode is HttpStatusCode.NotFound or HttpStatusCode.Conflict, $"{(int)r.StatusCode}"));
+            Assert.Single(Etat.Plateau, c => c.Statut == StatutConseiller.EnAppel);
+        }
     }
 
     [Fact]
@@ -175,8 +183,8 @@ public class AffectationTest : TestCrc
             Arrive("K0002", "Sinistres", Priorite.Normale, H(9, 0)));
 
         var reponses = await Task.WhenAll(
-            Post("/api/contacts/K0001/affecter", new { conseillerId = "C03" }),
-            Post("/api/contacts/K0002/affecter", new { conseillerId = "C03" }));
+            Task.Run(() => Post("/api/contacts/K0001/affecter", new { conseillerId = "C03" })),
+            Task.Run(() => Post("/api/contacts/K0002/affecter", new { conseillerId = "C03" })));
 
         Assert.Single(reponses, r => r.StatusCode == HttpStatusCode.OK);
         Assert.Single(Etat.FileAttente);
