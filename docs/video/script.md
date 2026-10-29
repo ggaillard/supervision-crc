@@ -11,7 +11,7 @@ l'image.*
 **À l'écran.** Une liste de contacts en attente, longue. Une ligne « Escalade » perdue au milieu. Une
 horloge : 11 h 29.
 
-**Voix.** Mardi, 11 h 29. Au centre de relation client d'une mutuelle, un sociétaire très mécontent attend.
+**Voix.** Mercredi, 11 h 29. Au centre de relation client d'une mutuelle, un sociétaire très mécontent attend.
 Son appel est classé « escalade » : il devrait passer avant tout le monde. Mais il est noyé au milieu de la
 liste, et personne ne le voit. Il va attendre six minutes. Votre travail, dans cette situation
 professionnelle, c'est que cela n'arrive plus.

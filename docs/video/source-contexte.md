@@ -71,7 +71,7 @@ une page de lancement ouvre les quatre pages, chacune sur son écran.
 
 ## Une matinée au CRC
 
-Pour développer sans téléphonie réelle, l'application rejoue une matinée enregistrée : le mardi
+Pour développer sans téléphonie réelle, l'application rejoue une matinée enregistrée : le mercredi
 **28 octobre 2026, de 8 h à midi**, avec **313 contacts**. Elle la rejoue vingt fois plus vite : quatre
 heures passent en douze minutes. On voit la file se remplir au pic de 10 h à 11 h, des conseillers partir en
 pause, une escalade arriver vers 11 h 29.

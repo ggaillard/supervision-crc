@@ -1,5 +1,5 @@
 {
-  "description": "Matinée du mardi 28 octobre 2026, 08:00-12:00 — données fictives",
+  "description": "Matinée du mercredi 28 octobre 2026, 08:00-12:00 — données fictives",
   "debut": "08:00:00",
   "evenements": [
     {"t": 28802, "heure": "08:00:02", "type": "StatutConseillerChange", "conseillerId": "C18", "statut": "Disponible"},

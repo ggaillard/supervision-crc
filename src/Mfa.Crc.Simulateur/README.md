@@ -1,6 +1,6 @@
 # Simulateur du CRC
 
-Bibliothèque C# (.NET 10) qui rejoue `data/scenario-matinee.json` : la matinée du mardi 28 octobre 2026,
+Bibliothèque C# (.NET 10) qui rejoue `data/scenario-matinee.json` : la matinée du mercredi 28 octobre 2026,
 de 08:00 à 12:00, avec 313 contacts et 18 conseillers. Elle remplace la téléphonie réelle pendant le
 développement. **Vous n'avez pas à la modifier.**
 
